@@ -1,6 +1,5 @@
 import express from "express";
 import productModel from "../models/productModel.js";
-import { getEmbedding } from "../utills/openai.js";
 
 const router = express.Router();
 

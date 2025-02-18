@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 server/.env
 
+# Ignore environment variables
+.env
+server/.env
