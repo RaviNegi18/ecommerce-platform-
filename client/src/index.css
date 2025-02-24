@@ -1,13 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
-* {
-  margin: 0%;
-  padding: 0%;
-  box-sizing: border-box;
-}
 
 @layer base {
   :root {
@@ -90,4 +91,14 @@
 /* Hide scrollbar for Edge & IE */
 .scroll-area {
   -ms-overflow-style: none;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

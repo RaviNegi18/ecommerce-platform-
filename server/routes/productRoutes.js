@@ -19,7 +19,7 @@ router
 router
   .route("/:id")
   .get(getProductById)
-  .put(authMiddleware, roleMiddleware("admin"), updateProducts)
+  .patch(authMiddleware, roleMiddleware("admin"), updateProducts)
   .delete(authMiddleware, roleMiddleware("admin"), deleteProducts);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useGetAllProductsQuery } from "@/redux/api/apiSlice";
 import { Card } from "@/components/ui/card";
@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import myContext from "@/context/data/myContext";
 
 function RatingBadge({ rating }) {
   return (
@@ -21,6 +22,8 @@ function RatingBadge({ rating }) {
 }
 
 function TopRated() {
+  const { mode } = useContext(myContext);
+  const isDarkTheme = mode === "dark";
   const { data: products, isLoading, error } = useGetAllProductsQuery();
   const [topRated, setTopRated] = useState([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -59,9 +62,18 @@ function TopRated() {
     return () => clearInterval(interval);
   }, [emblaApi]);
 
+  const handleProductView = (id) => {
+    // Add your navigation logic here, e.g., navigate(`/productinfo/${id}`)
+    console.log("Product clicked:", id);
+  };
+
   return (
-    <div className="w-full mt-5 max-w-6xl mx-auto">
-      <h2 className="text-3xl font-bold text-start mb-6 text-gray-900 dark:text-white">
+    <div
+      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+        isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
+    >
+      <h2 className="text-3xl font-bold text-start mb-6">
         🌟 Top Rated Products
       </h2>
       {isLoading ? (
@@ -74,15 +86,26 @@ function TopRated() {
         <p className="text-center text-red-500">Error loading products.</p>
       ) : topRated.length > 0 ? (
         <div className="relative">
-          <Carousel className="">
-            <CarouselPrevious className="w-12 h-12 bg-gray-900 text-white rounded-full hover:bg-gray-700 absolute left-3 top-1/2 transform -translate-y-1/2 z-10" />
+          <Carousel>
+            <CarouselPrevious
+              className={`w-12 h-12 rounded-full absolute left-3 top-1/2 transform -translate-y-1/2 z-10 ${
+                isDarkTheme
+                  ? "bg-gray-700 text-white hover:bg-gray-600"
+                  : "bg-gray-900 text-white hover:bg-gray-700"
+              }`}
+            />
             <CarouselContent ref={emblaRef} className="-ml-4">
               {topRated.map((product) => (
                 <CarouselItem
                   key={product._id}
                   className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
                 >
-                  <Card className="relative p-5 w-full transform hover:scale-105 transition-transform duration-300 shadow-lg bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+                  <Card
+                    className={`relative p-5 w-full transform hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg overflow-hidden ${
+                      isDarkTheme ? "bg-gray-800" : "bg-white"
+                    }`}
+                    onClick={() => handleProductView(product._id)}
+                  >
                     <RatingBadge rating={product.rating} />
                     <img
                       src={
@@ -91,10 +114,18 @@ function TopRated() {
                       alt={product.title}
                       className="w-full h-48 object-cover rounded-md shadow-md"
                     />
-                    <h3 className="text-lg font-semibold mt-3 text-gray-900 dark:text-white">
+                    <h3
+                      className={`text-lg font-semibold mt-3 ${
+                        isDarkTheme ? "text-white" : "text-gray-900"
+                      }`}
+                    >
                       {product.title}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <p
+                      className={`text-sm line-clamp-2 ${
+                        isDarkTheme ? "text-gray-300" : "text-gray-600"
+                      }`}
+                    >
                       {product.description}
                     </p>
                     <div className="flex justify-between items-center mt-3">
@@ -111,7 +142,13 @@ function TopRated() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselNext className="w-12 h-12 bg-gray-900 text-white rounded-full hover:bg-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 z-10" />
+            <CarouselNext
+              className={`w-12 h-12 rounded-full absolute right-3 top-1/2 transform -translate-y-1/2 z-10 ${
+                isDarkTheme
+                  ? "bg-gray-700 text-white hover:bg-gray-600"
+                  : "bg-gray-900 text-white hover:bg-gray-700"
+              }`}
+            />
           </Carousel>
         </div>
       ) : (

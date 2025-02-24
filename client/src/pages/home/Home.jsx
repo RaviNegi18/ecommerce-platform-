@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import Layout from "@/Layout/Layout";
 import BestSeller from "./BestSeller";
 import DiscountProducts from "./Discounted";
@@ -7,14 +6,18 @@ import Trending from "./Trending";
 import NewArrival from "./NewArrivalProducts";
 import CustomerReview from "@/components/testimonial/customerReview";
 import BannerHome from "./BannerHome";
-import { Link } from "react-router-dom";
+
 import ExclusivePics from "./ExclusivePicks";
 import TopRated from "./TopRated";
+import { useSelector } from "react-redux";
 function Home() {
+  const user = useSelector((state) => state.auth.user);
+  // console.log("here is the usr", user);
+  const Admin = useSelector((state) => state.auth.admin);
+  // console.log("Admin is here", Admin);
   return (
     <>
       <Layout>
-        {/* <HeroSection /> */}
         <BannerHome />
         <Trending />
         <NewArrival />
@@ -22,13 +25,6 @@ function Home() {
         <DiscountProducts />
         <ExclusivePics />
         <TopRated />
-
-        {/* <ProductCard /> */}
-        {/* <div className="flex justify-center -mt-10 mb-4">
-          <Link to={"/allproducts"}>
-            <Button variant="outline">See more</Button>
-          </Link>
-        </div> */}
 
         <CustomerReview />
       </Layout>

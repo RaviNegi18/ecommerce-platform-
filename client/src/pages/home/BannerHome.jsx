@@ -3,8 +3,9 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useGetAllProductsQuery } from "@/redux/api/apiSlice";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import { useNavigate } from "react-router-dom";
 const BannerHome = () => {
+  const navigate = useNavigate();
   const { data: products, isLoading, error } = useGetAllProductsQuery();
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -27,6 +28,10 @@ const BannerHome = () => {
 
   if (isLoading) return <p>Loading...</p>;
   if (error || validProducts.length === 0) return <p>No products available.</p>;
+
+  const handleInfo = (id) => {
+    navigate(`/productInfo/${id}`);
+  };
 
   return (
     <section className="w-full flex items-center px-4 justify-center mt-10 h-screen">
@@ -58,7 +63,11 @@ const BannerHome = () => {
                     </span>
                   )}
                 </div>
-                <Button variant="secondary" className="mt-4 w-fit">
+                <Button
+                  variant="secondary"
+                  className="mt-4 w-fit"
+                  onClick={() => handleInfo(product._id)}
+                >
                   Buy Now
                 </Button>
               </div>

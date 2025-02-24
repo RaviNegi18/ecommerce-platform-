@@ -1,125 +1,108 @@
 import React, { useContext } from "react";
 import myContext from "../../context/data/myContext";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+
+const reviews = [
+  {
+    id: 1,
+    name: "Kamal Nayan Upadhyay",
+    role: "Senior Product Designer",
+    image: "https://ecommerce-sk.vercel.app/img/kamal.png",
+    review:
+      "Amazing product quality and fast shipping! Will definitely shop again.",
+  },
+  {
+    id: 2,
+    name: "React Js",
+    role: "UI Developer",
+    image: "https://cdn-icons-png.flaticon.com/128/2763/2763444.png",
+    review:
+      "The customer service was fantastic. They helped me choose the right product!",
+  },
+  {
+    id: 3,
+    name: "React Js",
+    role: "CTO",
+    image: "https://webknudocs.vercel.app/logo/react.png",
+    review:
+      "Great experience! The website is easy to navigate, and the checkout process was seamless.",
+  },
+];
 
 function CustomerReview() {
-  const context = useContext(myContext);
-  const { mode } = context;
-  return (
-    <div>
-      <section className="">
-        <div className=" container mx-auto px-5 py-10">
-          <h1
-            className=" text-center text-3xl font-bold text-black"
-            style={{ color: mode === "dark" ? "white" : "" }}
-          >
-            CustomerReview
-          </h1>
-          <h2
-            className=" text-center text-2xl font-semibold mb-10"
-            style={{ color: mode === "dark" ? "white" : "" }}
-          >
-            What our <span className=" text-pink-500">customers</span> are
-            saying
-          </h2>
-          <div className="flex flex-wrap -m-4">
-            <div className="lg:w-1/3 lg:mb-0 mb-6 p-4">
-              <div className="h-full text-center">
-                <img
-                  alt="CustomerReview"
-                  className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100"
-                  src="https://ecommerce-sk.vercel.app/img/kamal.png"
-                />
-                <p
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                  className="leading-relaxed"
-                >
-                  Edison bulb retro cloud bread echo park, helvetica stumptown
-                  taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee
-                  ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut
-                  adaptogen squid fanny pack vaporware.
-                </p>
-                <span className="inline-block h-1 w-10 rounded bg-pink-500 mt-6 mb-4" />
-                <h2
-                  style={{ color: mode === "dark" ? "#ff4162" : "" }}
-                  className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase"
-                >
-                  Kamal Nayan Upadhyay
-                </h2>
-                <p
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                  className="text-gray-500"
-                >
-                  Senior Product Designer
-                </p>
-              </div>
-            </div>
+  const { mode } = useContext(myContext);
+  const isDarkMode = mode === "dark";
 
-            <div className="lg:w-1/3 lg:mb-0 mb-6 p-4">
-              <div className="h-full text-center">
-                <img
-                  alt="CustomerReview"
-                  className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100"
-                  src="https://cdn-icons-png.flaticon.com/128/2763/2763444.png"
-                />
+  return (
+    <section
+      className={`py-10 px-5 ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}
+    >
+      <div className="container mx-auto text-center">
+        <h1
+          className={`text-3xl font-bold ${
+            isDarkMode ? "text-white" : "text-gray-900"
+          }`}
+        >
+          Customer Reviews
+        </h1>
+        <h2
+          className={`text-xl mt-2 ${
+            isDarkMode ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
+          What our <span className="text-pink-500">customers</span> say
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6 mt-10">
+          {reviews.map((review) => (
+            <Card
+              key={review.id}
+              className={`shadow-lg ${
+                isDarkMode ? "bg-gray-800 shadow-gray-700" : "bg-white"
+              }`}
+            >
+              <CardHeader className="flex flex-col items-center justify-center">
+                <Avatar
+                  className={`w-20 h-20 border-2 ${
+                    isDarkMode ? "border-gray-600" : "border-gray-300"
+                  }`}
+                >
+                  <AvatarImage src={review.image} alt={review.name} />
+                  <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <CardTitle
+                  className={`text-lg font-semibold mt-4 ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  {review.name}
+                </CardTitle>
                 <p
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                  className="leading-relaxed"
+                  className={`text-sm ${
+                    isDarkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
                 >
-                  Edison bulb retro cloud bread echo park, helvetica stumptown
-                  taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee
-                  ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut
-                  adaptogen squid fanny pack vaporware.
+                  {review.role}
                 </p>
-                <span className="inline-block h-1 w-10 rounded bg-pink-500 mt-6 mb-4" />
-                <h2
-                  style={{ color: mode === "dark" ? "#ff4162" : "" }}
-                  className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase"
-                >
-                  React Js
-                </h2>
+              </CardHeader>
+              <Separator
+                className={`my-2 ${isDarkMode ? "bg-gray-700" : "bg-gray-300"}`}
+              />
+              <CardContent>
                 <p
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                  className="text-gray-500"
+                  className={`text-center ${
+                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
                 >
-                  UI Develeoper
+                  "{review.review}"
                 </p>
-              </div>
-            </div>
-            <div className="lg:w-1/3 lg:mb-0 p-4">
-              <div className="h-full text-center">
-                <img
-                  alt="CustomerReview"
-                  className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100"
-                  src="https://webknudocs.vercel.app/logo/react.png"
-                />
-                <p
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                  className="leading-relaxed"
-                >
-                  Edison bulb retro cloud bread echo park, helvetica stumptown
-                  taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee
-                  ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut
-                  adaptogen squid fanny pack vaporware.
-                </p>
-                <span className="inline-block h-1 w-10 rounded bg-pink-500 mt-6 mb-4" />
-                <h2
-                  style={{ color: mode === "dark" ? "#ff4162" : "" }}
-                  className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase"
-                >
-                  React Js
-                </h2>
-                <p
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                  className="text-gray-500"
-                >
-                  CTO
-                </p>
-              </div>
-            </div>
-          </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 

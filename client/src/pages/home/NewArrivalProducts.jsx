@@ -1,4 +1,7 @@
+"use client";
+
 import React, { useContext, useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import myContext from "../../context/data/myContext";
 import useEmblaCarousel from "embla-carousel-react";
 import { useGetAllProductsQuery } from "@/redux/api/apiSlice";
@@ -15,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 
 function NewArrival() {
+  const navigate = useNavigate();
   const context = useContext(myContext);
   const { mode } = context;
   const isDarkMode = mode === "dark";
@@ -48,15 +52,20 @@ function NewArrival() {
     return () => clearInterval(interval);
   }, [emblaApi]);
 
+  // Filtering new arrivals from last 2 days
   const today = new Date();
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 2);
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setDate(today.getDate() - 2);
 
   const filteredProducts = (products || []).filter((product) => {
     if (!product.images || product.images.length === 0) return false;
     const createdAt = new Date(product.createdAt);
-    return createdAt >= yesterday;
+    return createdAt >= twoDaysAgo;
   });
+
+  const handleProductView = (id) => {
+    navigate(`/productinfo/${id}`);
+  };
 
   return (
     <div className="w-full mt-5 max-w-6xl mx-auto">
@@ -89,11 +98,12 @@ function NewArrival() {
                   className="sm:basis-full md:basis-1/2 lg:basis-1/4 p-4"
                 >
                   <Card
-                    className={`relative p-5 w-full transform hover:scale-105 transition-transform duration-300 shadow-lg ${
+                    className={`relative p-5 w-full h-[400px] transform hover:scale-105 transition-transform duration-300 shadow-lg ${
                       isDarkMode
                         ? "bg-gray-800 text-white"
                         : "bg-white text-gray-900"
-                    } rounded-lg overflow-hidden`}
+                    } rounded-lg overflow-hidden cursor-pointer`}
+                    onClick={() => handleProductView(product._id)}
                   >
                     <img
                       src={product.images[0]}
@@ -102,26 +112,20 @@ function NewArrival() {
                     />
                     <CardHeader className="p-4">
                       <CardTitle
-                        className={`text-lg line-clamp-1 font-semibold text-gray-900 dark:text-white ${
+                        className={`text-lg font-semibold line-clamp-1 ${
                           isDarkMode ? "text-white" : "text-gray-900"
-                        } `}
+                        }`}
                       >
                         {product.title}
                       </CardTitle>
-                      <p
-                        className={`text-sm transition-all  ${
-                          isDarkMode ? "text-white" : "text-gray-900"
-                        }  `}
-                      >
-                        {product.description}
-                      </p>
+                      <ProductDescription description={product.description} />
                     </CardHeader>
                     <CardContent className="p-4 flex justify-between items-center">
                       <div>
                         <span
-                          className={`text-lg font-bold text-gray-800 dark:text-white  ${
-                            isDarkMode ? "text-white" : "text-gray-900"
-                          } `}
+                          className={`text-lg text-blue-500 font-bold ${
+                            isDarkMode ? "" : "text-gray-900"
+                          }`}
                         >
                           ${product.price}
                         </span>
@@ -147,10 +151,12 @@ function NewArrival() {
 
 const ProductDescription = ({ description }) => {
   const [expanded, setExpanded] = useState(false);
+  const toggleExpand = () => setExpanded((prev) => !prev);
+
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex flex-col">
       <p
-        className={`text-sm text-gray-500 dark:text-gray-300 transition-all ${
+        className={`text-sm transition-all text-gray-500 dark:text-gray-300 ${
           expanded ? "line-clamp-none" : "line-clamp-2"
         }`}
       >
@@ -158,8 +164,8 @@ const ProductDescription = ({ description }) => {
       </p>
       {description.length > 100 && !expanded && (
         <button
-          onClick={() => setExpanded(true)}
-          className="text-blue-500 flex text-xs font-semibold hover:underline mt-1"
+          onClick={toggleExpand}
+          className="text-blue-500 text-xs font-semibold hover:underline mt-1 self-end"
         >
           See More
         </button>

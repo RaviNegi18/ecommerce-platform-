@@ -9,7 +9,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!userName || !email || !password) {
     res.status(400);
-    throw new Error("all fields are required");
+    throw new Error("All fields are required");
   }
 
   // Check if user already exists
@@ -43,8 +43,6 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 });
 
-///
-
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -53,20 +51,21 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("All fields are required!");
   }
 
+  // Find the user by email
   const user = await User.findOne({ email });
   if (!user) {
     res.status(400);
-    throw new Error("Already Logged In");
+    throw new Error("Invalid Credentials");
   }
 
-  //compare Password
-  const ismatch = await bcrypt.compare(password, user.password);
-  if (!ismatch) {
+  // Compare Password
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
     res.status(400);
     throw new Error("Invalid Credentials");
   }
-  //Generate Jwt Tokn
 
+  // Generate JWT token
   const token = jwt.sign(
     {
       id: user._id,
@@ -77,13 +76,14 @@ const loginUser = asyncHandler(async (req, res) => {
       expiresIn: "7d",
     }
   );
+
   res.status(201).json({
-    message: "Login successfull",
+    message: "Login successful",
     token,
     user: {
       id: user._id,
       userName: user.userName,
-      emai: user.email,
+      email: user.email,
       role: user.role,
       profilePic: user.profilePic,
     },

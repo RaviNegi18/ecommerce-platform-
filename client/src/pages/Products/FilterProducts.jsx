@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import myContext from "../../context/data/myContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,63 +14,77 @@ const FilterSidebar = ({
   selectedCategories,
   selectedBrands,
   products,
+  searchKey,
+  setSearchKey,
 }) => {
   const context = useContext(myContext);
-  const { mode, searchkey } = context;
+  const { mode, setMode } = context;
 
-  const categories = products
-    ? [...new Set(products.map((item) => item.category))]
-    : [];
-  const brands = products
-    ? [...new Set(products.map((item) => item.brand))]
-    : [];
-  const minPrice = products?.length
+  const isDarkMode = mode === "dark";
+
+  const categories = [...new Set(products.map((item) => item.category))];
+  const brands = [...new Set(products.map((item) => item.brand))];
+
+  const minPrice = products.length
     ? Math.min(...products.map((item) => item.price))
     : 0;
-  const maxPrice = products?.length
+  const maxPrice = products.length
     ? Math.max(...products.map((item) => item.price))
     : 10000;
 
-  const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
+  const [priceRange, setPriceRange] = React.useState([minPrice, maxPrice]);
 
   return (
     <aside
-      className={`w-64 p-4 border-r fixed top-14 overflow-y-hidden ${
-        mode === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+      className={` h-[100vh]  scroll-area  sticky w-64 p-4 border-r overflow-y-auto transition-colors duration-300 ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
       }`}
     >
-      <ScrollArea className="h-full overflow-y-hidden">
-        <Card className="p-4 shadow-md">
-          <h2 className="text-lg font-semibold mb-4">Filters</h2>
+      <div className="flex sticky justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold">Filters</h2>
+      </div>
 
+      <ScrollArea className="h-full overflow-x-hidden overflow-y-hidden">
+        <Card
+          className={`p-4 shadow-md border-0 ${
+            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+          }`}
+        >
           <Input
             type="text"
-            value={searchkey}
-            onChange={(e) => setSearchkey(e.target.value)}
+            value={searchKey}
+            onChange={(e) => setSearchKey(e.target.value)}
             placeholder="Search products..."
-            className="mb-4"
+            className={`mb-4 ${
+              isDarkMode ? "bg-gray-700 text-white" : "bg-white text-black"
+            }`}
           />
 
           <h3 className="font-medium mt-4 mb-2">Category</h3>
-          {categories.map((category, index) => (
-            <div key={index} className="flex items-center space-x-2">
+          {categories.map((category) => (
+            <div key={category} className="flex items-center space-x-2">
               <Checkbox
                 checked={selectedCategories.includes(category)}
                 onCheckedChange={() => onCategoryChange(category)}
+                className={isDarkMode ? "text-white" : "text-black"}
               />
-              <label>{category}</label>
+              <label className={isDarkMode ? "text-white" : "text-black"}>
+                {category}
+              </label>
             </div>
           ))}
 
-          {/* Brand Filter */}
           <h3 className="font-medium mt-4 mb-2">Brand</h3>
-          {brands.map((brand, index) => (
-            <div key={index} className="flex items-center space-x-2">
+          {brands.map((brand) => (
+            <div key={brand} className="flex items-center space-x-2">
               <Checkbox
                 checked={selectedBrands.includes(brand)}
                 onCheckedChange={() => onBrandChange(brand)}
+                className={isDarkMode ? "text-white" : "text-black"}
               />
-              <label>{brand}</label>
+              <label className={isDarkMode ? "text-white" : "text-black"}>
+                {brand}
+              </label>
             </div>
           ))}
 
@@ -88,7 +102,6 @@ const FilterSidebar = ({
             <span>₹{priceRange[1]}</span>
           </div>
 
-          {/* Apply and Reset Buttons */}
           <Button className="w-full mt-4" onClick={applyFilters}>
             Apply Filters
           </Button>
@@ -96,7 +109,7 @@ const FilterSidebar = ({
             variant="outline"
             className="w-full mt-2"
             onClick={() => {
-              setSearchkey("");
+              setSearchKey("");
               setPriceRange([minPrice, maxPrice]);
               onCategoryChange([]);
               onBrandChange([]);

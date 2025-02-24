@@ -1,43 +1,60 @@
+const mongoose = require("mongoose");
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
 
 // 📌 Place a New Order
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
+
 const placeOrder = async (req, res) => {
   try {
     const { userId, products, paymentMethod, shippingInfo } = req.body;
 
-    // Validate products
+    if (!isValidObjectId(userId)) {
+      return res.status(400).json({ message: "Invalid userId format" });
+    }
+
+    console.log("Received Products:", products);
+
+    if (!Array.isArray(products) || products.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Products array is required and cannot be empty" });
+    }
+
     let totalPrice = 0;
     const orderItems = await Promise.all(
       products.map(async (item) => {
-        const product = await Product.findById(item.productId);
-        if (!product || product.stock < item.quantity) {
+        if (!item || !isValidObjectId(item._id)) {
+          throw new Error("Each product must have a valid ObjectId");
+        }
+
+        const product = await Product.findById(item._id);
+        if (!product || !product.is_in_stock) {
           throw new Error(
-            `Product ${product?.title || "Unknown"} is out of stock`
+            `Product ${product?.title || "Unknown"} is out of stock.`
           );
         }
+
         totalPrice += product.price * item.quantity;
         return {
-          productId: item.productId,
+          productId: product._id,
           quantity: item.quantity,
           price: product.price,
         };
       })
     );
 
-    // Create order
     const order = new Order({
-      userId,
+      userId: new mongoose.Types.ObjectId(userId),
       products: orderItems,
       totalPrice,
       paymentInfo: { method: paymentMethod },
       shippingInfo,
     });
-
     await order.save();
-
     res.status(201).json({ message: "Order placed successfully", order });
   } catch (error) {
+    console.error("Order Placement Error:", error.message);
     res.status(400).json({ message: error.message });
   }
 };

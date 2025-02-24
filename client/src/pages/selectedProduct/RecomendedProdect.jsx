@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useGetAllProductsQuery } from "@/redux/api/apiSlice";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,9 +7,12 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import myContext from "@/context/data/myContext";
 
-const RelatedProducts = ({ category }) => {
+const Recommended = ({ category, onProductSelect }) => {
   const { data: products, isLoading, error } = useGetAllProductsQuery();
+  const { mode } = useContext(myContext);
+  const isDarkMode = mode === "dark";
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">Failed to load products.</p>;
@@ -19,23 +22,42 @@ const RelatedProducts = ({ category }) => {
   );
 
   return (
-    <div className="w-full mt-5 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">🔥 Related Products</h2>
-      <Carousel className="">
-        <CarouselContent className=" ">
+    <div
+      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+        isDarkMode ? "bg-gray-900 text-white" : ""
+      }`}
+    >
+      <h2
+        className={`text-2xl font-bold mb-4 ${isDarkMode ? "text-white" : ""}`}
+      >
+        🔥 Related Products
+      </h2>
+      <Carousel>
+        <CarouselContent>
           {filterProducts.map((product) => (
             <CarouselItem
               key={product._id}
               className="w-1/4 sm:basis-full md:basis-1/2 lg:basis-1/4 p-4"
             >
-              <Card className="p-4 shadow-lg">
+              <Card
+                className={`p-4 cursor-pointer shadow-lg ${
+                  isDarkMode
+                    ? "bg-gray-800 shadow-gray-700"
+                    : "bg-white shadow-lg"
+                }`}
+                onClick={() => onProductSelect(product)}
+              >
                 <img
                   src={product.images[0] || product.images}
                   alt={product.title}
                   className="w-full h-40 object-contain"
                 />
                 <CardHeader>
-                  <CardTitle>{product.title}</CardTitle>
+                  <CardTitle
+                    className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                  >
+                    {product.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="flex justify-between items-center">
                   <span className="text-lg font-bold">${product.price}</span>
@@ -50,4 +72,4 @@ const RelatedProducts = ({ category }) => {
   );
 };
 
-export default RelatedProducts;
+export default Recommended;

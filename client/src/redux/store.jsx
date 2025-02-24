@@ -1,20 +1,30 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 import cartSlice from "./cartSlice";
+import authReducer from "./api/authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
-const persistConfig = {
-  key: "root",
+const authPersistConfig = {
+  key: "auth",
   storage,
+  whitelist: ["user", "admin", "token"],
 };
 
-const persistCartReducer = persistReducer(persistConfig, cartSlice);
+const cartPersistConfig = {
+  key: "cart",
+  storage,
+  whitelist: ["items", "itemCount"],
+};
+
+const persistAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistCartReducer = persistReducer(cartPersistConfig, cartSlice);
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     cart: persistCartReducer,
+    auth: persistAuthReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

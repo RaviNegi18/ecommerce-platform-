@@ -35,7 +35,7 @@ export const showErrorToast = (message) => {
   });
 };
 
-export const showInfoToast = () => {
+export const showInfoToast = (message) => {
   toast.info(message, {
     position: "top-right",
     autoClose: 2000,
@@ -44,7 +44,7 @@ export const showInfoToast = () => {
     draggable: true,
     style: {
       ...toastStyle,
-      backgroundColor: "#2196F3",
+      backgroundColor: "#FF5722",
     },
   });
 };

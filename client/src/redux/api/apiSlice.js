@@ -5,9 +5,9 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth?.token;
+      const token = getState().auth?.admin?.token || getState().auth?.token;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("Authorization", "Bearer " + token.trim());
       }
       return headers;
     },
@@ -27,19 +27,52 @@ export const apiSlice = createApi({
         body: userdata,
       }),
     }),
+    updateUser: builder.mutation({
+      query: ({ id, updateData }) => ({
+        url: `/admin/customer/${id}`,
+        method: "PATCH",
+        body: updateData,
+      }),
+    }),
     userProfile: builder.query({
       query: () => "user/profile",
     }),
 
+    createProduct: builder.mutation({
+      query: (product) => ({
+        method: "POST",
+        url: "/products",
+        body: product,
+      }),
+    }),
     getAllProducts: builder.query({
       query: () => "products",
       providesTags: ["Products"],
     }),
-
     getProductById: builder.query({
       query: (id) => `products/${id}`,
     }),
-
+    deleteProductById: builder.mutation({
+      query: (id) => ({
+        url: `products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    updateProductById: builder.mutation({
+      query: ({ id, updateData }) => ({
+        url: `products/${id}`,
+        method: "PATCH",
+        body: updateData,
+      }),
+    }),
+    deleteUserById: builder.mutation({
+      query: (id) => ({
+        url: `/admin/customer/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users"],
+    }),
     registerAdmin: builder.mutation({
       query: (admindata) => ({
         url: "admin/register",
@@ -54,16 +87,16 @@ export const apiSlice = createApi({
         body: admindata,
       }),
     }),
-
-    //SuperAdmin - Admin Masnagement
+    getAllUsers: builder.query({
+      query: () => "/admin/customer",
+      providesTags: ["Users"],
+    }),
     getAllAdmins: builder.query({
       query: () => "super/admins",
     }),
     getAdminById: builder.query({
       query: (id) => `super/admins/${id}`,
     }),
-
-    //OTP Management
     generateOtp: builder.mutation({
       query: (otpdata) => ({
         url: "otp/generate",
@@ -85,8 +118,6 @@ export const apiSlice = createApi({
         body: passwordData,
       }),
     }),
-
-    // s Orders
     placeOrder: builder.mutation({
       query: (orderDetails) => ({
         url: "orders",
@@ -119,11 +150,16 @@ export const apiSlice = createApi({
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
+  useUpdateUserMutation,
   useUserProfileQuery,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useDeleteProductByIdMutation,
+  useUpdateProductByIdMutation,
+  useDeleteUserByIdMutation,
   useRegisterAdminMutation,
   useLoginAdminMutation,
+  useGetAllUsersQuery,
   useGetAllAdminsQuery,
   useGetAdminByIdQuery,
   useGenerateOtpMutation,
@@ -134,4 +170,5 @@ export const {
   useGetAllOrdersQuery,
   useUpdateOrderMutation,
   useDeleteOrderMutation,
+  useCreateProductMutation,
 } = apiSlice;

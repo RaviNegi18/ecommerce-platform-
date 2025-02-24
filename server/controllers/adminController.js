@@ -1,14 +1,13 @@
 const Admin = require("../models/adminModel");
+const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-require("dotenv").config(); // Load environment variables
+require("dotenv").config();
 
-// Register new admin
 const registerAdmin = async (req, res) => {
-  const { userName, email, password, role } = req.body;
+  const { userName, email, password } = req.body;
 
   try {
-    // Check if admin already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.status(400).json({ message: "Admin already exists" });
@@ -30,7 +29,7 @@ const registerAdmin = async (req, res) => {
     const token = jwt.sign(
       { adminId: newAdmin._id, role: newAdmin.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "3h" }
     );
 
     res.status(201).json({
@@ -117,9 +116,85 @@ const getAdminById = async (req, res) => {
   }
 };
 
+//Get aall users
+
+// Get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select("-password");
+    // Even if users is an empty array, that's a valid response.
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(
+      "Error in getting the details about users in admin controller",
+      error.message
+    );
+    res
+      .status(500)
+      .json({ message: "Error fetching users", error: error.message });
+  }
+};
+
+// Get a single user
+const getUserById = async (req, res) => {
+  const { id } = req.params; // Changed to req.params for clarity
+  try {
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error in getting a user", error.message);
+    res
+      .status(500)
+      .json({ message: "Error fetching user", error: error.message });
+  }
+};
+
+// Edit user by ID
+const updateUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Use findByIdAndUpdate for clarity and correct filtering; the first argument is the id.
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    }).select("-password");
+    if (!updatedUser) {
+      return res.status(404).json({ message: "No user found!" });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error updating the data", error.message);
+    res
+      .status(500)
+      .json({ message: "Error updating user", error: error.message });
+  }
+};
+
+const deleteUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: "No user found" });
+    }
+    res.status(200).json({ message: "User deleted successfully", deletedUser });
+  } catch (error) {
+    console.error("Error deleting user", error.message);
+    res
+      .status(500)
+      .json({ message: "Error deleting user", error: error.message });
+  }
+};
+
 module.exports = {
   registerAdmin,
   loginAdmin,
   getAllAdmins,
   getAdminById,
+  getUserById,
+  getAllUsers,
+  updateUserById,
+  deleteUserById,
 };

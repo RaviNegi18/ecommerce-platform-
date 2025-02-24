@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "@/utills/ToastUtills";
-import { useRegisterUserMutation } from "@/redux/api/apiSlice";
+import {
+  useRegisterUserMutation,
+  useRegisterAdminMutation,
+} from "@/redux/api/apiSlice";
 import myContext from "@/context/data/myContext";
 import { useContext } from "react";
 
 const SignUp = () => {
-  const context = useContext(myContext);
-  const { mode } = context;
+  const { mode } = useContext(myContext);
   const navigate = useNavigate();
   const isDarkTheme = mode === "dark";
 
@@ -17,171 +19,146 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  // Use the mutation hook to register a new user
   const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const [registerAdmin] = useRegisterAdminMutation();
 
   const onSubmitSignup = async (data) => {
     try {
-      await registerUser(data).unwrap();
-      showSuccessToast("Signup successful!");
+      let response;
+      response =
+        data.role === "admin"
+          ? await registerAdmin(data).unwrap()
+          : await registerUser(data).unwrap();
+
+      showSuccessToast("Signup successful! Welcome aboard 🎉");
       navigate("/sign-in");
     } catch (error) {
-      const errorMessage =
-        error?.data?.message || "Signup failed. Please try again.";
-      showErrorToast(errorMessage);
+      showErrorToast(error?.data?.message || "Oops! Signup failed. Try again.");
     }
   };
 
-  const containerClass = isDarkTheme
-    ? "bg-slate-800 text-white"
-    : "bg-slate-100 text-slate-800";
-
-  const formClass = isDarkTheme
-    ? "bg-slate-700 text-white"
-    : "bg-slate-100 text-slate-800";
-
-  const inputClass = isDarkTheme
-    ? "bg-slate-600 border-slate-600 text-slate-200"
-    : "bg-slate-200 text-gray-800 placeholder-gray-500";
-
-  const buttonClass = isDarkTheme
-    ? "bg-blue-600 hover:bg-blue-800"
-    : "bg-blue-500 hover:bg-blue-700";
-
-  const labelClass = isDarkTheme ? "text-gray-300" : "text-gray-700";
-
   return (
     <div
-      className={`w-[100%] h-[100vh] flex flex-col lg:flex-row items-center justify-center gap-8 sm:mt-6 ${containerClass}`}
+      className={`w-full min-h-screen flex flex-col lg:flex-row items-center justify-center gap-8 p-6 ${
+        isDarkTheme ? "bg-slate-900 text-white" : "bg-slate-100 text-gray-800"
+      }`}
     >
-      <div className="w-full flex justify-center lg:justify-center">
+      <div className="w-full h-[750px] mt-10 flex justify-center">
         <form
           onSubmit={handleSubmit(onSubmitSignup)}
-          className={`space-y-4 px-6 py-8 w-[400px] pt-20 max-w-full mx-6 sm:mx-0 shadow-md opacity-80 sm:mt-10 rounded-lg ${formClass}`}
+          className={`space-y-6 p-8 w-[400px] shadow-lg rounded-lg transition-all duration-300 ${
+            isDarkTheme ? "bg-slate-800 text-white" : "bg-white text-gray-800"
+          }`}
         >
-          <h1 className="text-center text-blue-500 text-3xl font-semibold">
-            Sign Up
+          <h1 className="text-center text-blue-500 text-3xl font-bold">
+            Create Your Account
           </h1>
-          <p
-            className={`text-center text-md font-lg mb-6 ${
-              isDarkTheme ? "text-white" : "text-slate-800"
-            }`}
-          >
-            Enter your details to create an account
+          <p className="text-center text-md font-medium mb-4">
+            Join us and unlock exclusive benefits!
           </p>
 
-          <div>
-            <label
-              htmlFor="username"
-              className={`block mb-2 font-semibold ${labelClass}`}
-            >
-              Username:
-            </label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Enter your username"
-              {...register("userName", {
+          {[
+            {
+              id: "userName",
+              type: "text",
+              label: "Username",
+              placeholder: "Enter your username",
+              validation: {
                 required: "Username is required",
-                minLength: {
-                  value: 3,
-                  message: "Username should be at least 3 characters",
-                },
-                maxLength: {
-                  value: 15,
-                  message: "Username cannot exceed 15 characters",
-                },
-              })}
-              className={`p-3 rounded-md w-full border-2 ${inputClass} focus:outline-none focus:border-blue-500`}
-            />
-            {errors.username && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.username.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className={`block mb-2 font-semibold ${labelClass}`}
-            >
-              Email:
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              {...register("email", {
+                minLength: { value: 3, message: "At least 3 characters" },
+                maxLength: { value: 15, message: "Max 15 characters" },
+              },
+            },
+            {
+              id: "email",
+              type: "email",
+              label: "Email",
+              placeholder: "Enter your email",
+              validation: {
                 required: "Email is required",
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Please enter a valid email address",
+                  message: "Invalid email address",
                 },
-                maxLength: {
-                  value: 50,
-                  message: "Email cannot exceed 50 characters",
+                maxLength: { value: 50, message: "Max 50 characters" },
+              },
+            },
+            {
+              id: "password",
+              type: "password",
+              label: "Password",
+              placeholder: "Enter your password",
+              validation: {
+                required: "Password is required",
+                minLength: { value: 8, message: "At least 8 characters" },
+                pattern: {
+                  value: "^(?=.*[A-Za-z])(?=.*d).{8,}$",
+                  message: "Must include uppercase, number & special character",
                 },
-              })}
-              className={`p-3 rounded-md w-full border-2 ${inputClass} focus:outline-none focus:border-blue-500`}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+              },
+            },
+          ].map(({ id, type, label, placeholder, validation }) => (
+            <div key={id}>
+              <label htmlFor={id} className="block mb-2 font-semibold">
+                {label}:
+              </label>
+              <input
+                id={id}
+                type={type}
+                placeholder={placeholder}
+                {...register(id, validation)}
+                className={`p-3 rounded-md w-full border-2 focus:outline-none focus:border-blue-500 ${
+                  isDarkTheme
+                    ? "bg-slate-700 border-slate-600 text-white"
+                    : "bg-gray-100 text-gray-800 placeholder-gray-500"
+                }`}
+              />
+              {errors[id] && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors[id].message}
+                </p>
+              )}
+            </div>
+          ))}
 
           <div>
-            <label
-              htmlFor="password"
-              className={`block mb-2 font-semibold ${labelClass}`}
-            >
-              Password:
+            <label htmlFor="role" className="block mb-2 font-semibold">
+              Select Role:
             </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters long",
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Password must include at least one uppercase letter, one number, and one special character.",
-                },
-              })}
-              className={`p-3 rounded-md w-full border-2 ${inputClass} focus:outline-none focus:border-blue-500`}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
+            <select
+              id="role"
+              {...register("role", { required: "Role selection is required" })}
+              className={`p-3 rounded-md w-full border-2 focus:outline-none focus:border-blue-500 ${
+                isDarkTheme
+                  ? "bg-slate-700 text-white"
+                  : "bg-gray-100 text-gray-800"
+              }`}
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+            {errors.role && (
+              <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
             )}
           </div>
 
           <button
             type="submit"
-            className={`w-full text-white px-4 py-2 rounded-md ${buttonClass} transition duration-300`}
+            className={`w-full text-white px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
+              isDarkTheme
+                ? "bg-blue-600 hover:bg-blue-800"
+                : "bg-blue-500 hover:bg-blue-700"
+            }`}
             disabled={isLoading}
           >
             {isLoading ? "Signing Up..." : "Sign Up"}
           </button>
 
-          <p
-            className={`${
-              isDarkTheme ? "text-white" : "text-gray-700"
-            } text-center text-sm mt-4`}
-          >
-            Already have an account?
+          <p className="text-center text-sm font-medium  mt-4">
+            Already have an account?{" "}
             <Link
               to="/sign-in"
-              className="text-blue-600 font-semibold ml-1 hover:underline"
+              className="text-blue-500 font-semibold hover:underline"
             >
               Login
             </Link>
@@ -189,11 +166,11 @@ const SignUp = () => {
         </form>
       </div>
 
-      <div className="hidden lg:block mt-10 w-full h-full">
+      <div className="hidden h-[750px] mt-10  lg:flex w-full justify-center">
         <img
           src="https://ecme-react.themenate.net/img/others/auth-side-bg.png"
           alt="Sign Up Illustration"
-          className="w-[600px] rounded-r-3xl h-[510px] mt-10 object-cover opacity-80"
+          className="w-full h-[750px]  object-cover rounded-r-3xl opacity-90 shadow-lg"
         />
       </div>
     </div>

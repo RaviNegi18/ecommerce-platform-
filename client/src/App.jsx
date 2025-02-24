@@ -4,22 +4,17 @@ import MyState from "./context/data/myState";
 import Navbar from "./Layout/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AppRoutes from "./utills";
-
+import AppRoutes from "./utills/index";
 import Loader from "./utills/Loader";
 
 function App() {
   return (
     <MyState>
-      <Navbar />
       <Suspense fallback={<Loader />}>
-        <Routes>
-          {AppRoutes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
-          ))}
-        </Routes>
+        <Navbar />
+        <AppRoutes />
       </Suspense>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} />
     </MyState>
   );
 }

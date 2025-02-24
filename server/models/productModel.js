@@ -32,7 +32,6 @@ const productSchema = new mongoose.Schema(
     },
     tags: { type: [String], default: [] },
 
-    // AI Search Feature: OpenAI Embeddings
     embedding: { type: [Number], default: [] },
   },
   { timestamps: true }
