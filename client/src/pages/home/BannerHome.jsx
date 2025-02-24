@@ -41,7 +41,7 @@ const BannerHome = () => {
           style={{ transform: `translateX(-${currentImage * 100}%)` }}
         >
           {validProducts.map((product) => (
-            <Card key={product.id} className="min-w-full relative">
+            <Card key={product._id} className="min-w-full relative">
               <img
                 src={product.images[0]}
                 alt={product.title}
