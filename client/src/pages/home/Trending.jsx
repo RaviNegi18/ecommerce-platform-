@@ -16,6 +16,7 @@ function Trending() {
   const { mode } = context;
   const isDarkMode = mode === "dark";
   const { data: products, error, isLoading } = useGetAllProductsQuery();
+
   const navigate = useNavigate();
 
   const handleProductView = (id) => {

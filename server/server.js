@@ -25,7 +25,7 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
   "https://ecommerce-platform-backend-e3ho.onrender.com/api",
-  "https://shopsy-pink.vercel.app/",
+  "https://ecommerce-platform-client.vercel.app/",
 ];
 
 app.use(
