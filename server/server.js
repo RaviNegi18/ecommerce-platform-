@@ -19,9 +19,9 @@ const PORT = process.env.PORT || 5001;
 app.use(express.json());
 
 const allowedOrigins = [
-  "http://localhost:5173", // ✅ Vite default port
-  "https://shopsy-pink.vercel.app", // ✅ Vercel frontend
-  "https://render-z20m.onrender.com",
+  "http://localhost:5173",
+  "https://shopsy-pink.vercel.app",
+  "https://render-z20m.onrender.com/",
 ];
 
 app.use(
