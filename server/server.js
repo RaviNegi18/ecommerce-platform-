@@ -18,8 +18,28 @@ const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
 
+// Configure CORS
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://mern-backend-wwev.onrender.com", // Deployed frontend
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Routes
 app.use("/api/user", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
@@ -27,5 +47,5 @@ app.use("/api/otp", otpRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
