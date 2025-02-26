@@ -21,7 +21,7 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173", // ✅ Vite default port
   "https://shopsy-pink.vercel.app", // ✅ Vercel frontend
-  "https://render-z20m.onrender.com", // ✅ Render frontend (if used)
+  "https://render-z20m.onrender.com",
 ];
 
 app.use(
@@ -32,7 +32,7 @@ app.use(
       }
       return callback(new Error("Not allowed by CORS"));
     },
-    credentials: true, // ✅ Required for cookies & tokens
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
