@@ -10,7 +10,7 @@ const {
   deleteUserById,
 } = require("../controllers/adminController");
 const authMiddleware = require("../middleware/authMiddleware");
-const roleMiddleware = require("../middleware/roleMiddleware");
+import roleMiddleware from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
