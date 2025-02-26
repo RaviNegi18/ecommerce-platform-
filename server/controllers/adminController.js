@@ -1,8 +1,10 @@
-const Admin = require("../models/adminModel");
-const User = require("../models/user");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import Admin from "../models/adminModel.js";
+import User from "../models/user.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const registerAdmin = async (req, res) => {
   const { userName, email, password } = req.body;
@@ -188,7 +190,7 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   registerAdmin,
   loginAdmin,
   getAllAdmins,

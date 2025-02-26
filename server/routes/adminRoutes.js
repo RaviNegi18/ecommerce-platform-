@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   registerAdmin,
   loginAdmin,
   getAllAdmins,
@@ -8,8 +8,8 @@ const {
   getUserById,
   updateUserById,
   deleteUserById,
-} = require("../controllers/adminController");
-const authMiddleware = require("../middleware/authMiddleware");
+} from "../controllers/adminController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 import roleMiddleware from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
@@ -56,4 +56,4 @@ router.get(
   getAdminById
 );
 
-module.exports = router;
+export default router;

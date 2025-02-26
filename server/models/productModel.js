@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
@@ -40,4 +40,4 @@ const productSchema = new mongoose.Schema(
 // 🔹 Full-Text Search Enable for MongoDB
 productSchema.index({ title: "text", description: "text", tags: "text" });
 
-module.exports = mongoose.model("Product", productSchema);
+export default mongoose.model("Product", productSchema);

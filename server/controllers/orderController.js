@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const Order = require("../models/orderModel");
-const Product = require("../models/productModel");
+import mongoose from "mongoose";
+import Order from "../models/orderModel.js";
+import Product from "../models/productModel.js";
 
 // 📌 Place a New Order
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -109,7 +109,7 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   placeOrder,
   getOrderById,
   getAllOrders,

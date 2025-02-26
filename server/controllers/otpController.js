@@ -1,10 +1,12 @@
-require("dotenv").config();
-const bcrypt = require("bcryptjs");
-const Otp = require("../models/otpModel");
-const User = require("../models/user");
-const nodemailer = require("nodemailer");
+import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
+import Otp from "../models/otpModel.js";
+import User from "../models/user.js";
+import nodemailer from "nodemailer";
 
 // Setup nodemailer transporter
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -95,4 +97,4 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { generateOtp, verifyOtp, resetPassword };
+export { generateOtp, verifyOtp, resetPassword };

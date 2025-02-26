@@ -1,14 +1,14 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const {
+import {
   getProductById,
   getAllProducts,
   createProduct,
   deleteProducts,
   updateProducts,
-} = require("../controllers/productController");
-const authMiddleware = require("../middleware/authMiddleware");
+} from "../controllers/productController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 import roleMiddleware from "../middleware/roleMiddleware.js";
 
 router
@@ -22,4 +22,4 @@ router
   .patch(authMiddleware, roleMiddleware("admin"), updateProducts)
   .delete(authMiddleware, roleMiddleware("admin"), deleteProducts);
 
-module.exports = router;
+export default router;

@@ -1,19 +1,22 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 
-const connectDB = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const productRoutes = require("./routes/productRoutes");
-const otpRoutes = require("./routes/otpRoutes");
-const orderRoutes = require("./routes/orderRoutes");
+import adminRoutes from "./routes/adminRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import otpRoutes from "./routes/otpRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+
+dotenv.config();
 
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 
@@ -23,6 +26,6 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/otp", otpRoutes);
 app.use("/api/orders", orderRoutes);
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,8 +1,10 @@
-require("dotenv").config();
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const asyncHandler = require("express-async-handler");
+import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
+import User from "../models/user.js";
+import jwt from "jsonwebtoken";
+import asyncHandler from "express-async-handler";
+
+dotenv.config();
 
 const registerUser = asyncHandler(async (req, res) => {
   const { userName, email, password, profilePic, role } = req.body;
@@ -89,4 +91,4 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { registerUser, loginUser };
+export { registerUser, loginUser };

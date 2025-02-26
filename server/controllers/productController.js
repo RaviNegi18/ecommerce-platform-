@@ -1,7 +1,6 @@
-const Product = require("../models/productModel");
+import Product from "../models/productModel.js";
 
-//create product
-
+// Create product
 const createProduct = async (req, res) => {
   try {
     const existingProduct = await Product.findOne({
@@ -30,44 +29,48 @@ const createProduct = async (req, res) => {
   }
 };
 
-//update a prodyct
-updateProducts = async (req, res) => {
+// Update a product
+const updateProducts = async (req, res) => {
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    if (!product)
+
+    if (!product) {
       return res.status(404).json({
-        error: "product not found",
+        error: "Product not found",
       });
-    res.json({ message: "product updated", product });
+    }
+
+    res.json({ message: "Product updated", product });
   } catch (error) {
-    res.status(500).json({ error: "error updating products" });
+    res.status(500).json({ error: "Error updating product" });
   }
 };
 
-//delete products
-
-deleteProducts = async (req, res) => {
+// Delete a product
+const deleteProducts = async (req, res) => {
   try {
-    const products = await Product.findByIdAndDelete(req.params.id);
-    if (!products) {
-      res.status(404).json({
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
         error: "Product not found!",
       });
-      res.json({
-        message: "product deleted",
-      });
     }
+
+    res.json({
+      message: "Product deleted",
+    });
   } catch (error) {
     res.status(500).json({
-      error: "error in deleting products",
+      error: "Error in deleting product",
     });
   }
 };
 
-//get all Producfts
-getAllProducts = async (req, res) => {
+// Get all products
+const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
@@ -78,26 +81,29 @@ getAllProducts = async (req, res) => {
   }
 };
 
-//get Sigle Product by Id
-
-getProductById = async (req, res) => {
+// Get single product by ID
+const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    if (!product)
-      res.status(404).json({
-        error: "product not fouund",
+
+    if (!product) {
+      return res.status(404).json({
+        error: "Product not found",
       });
+    }
+
     res.json(product);
   } catch (error) {
     res.status(500).json({
-      Error: "error in fetching product",
+      error: "Error in fetching product",
     });
   }
 };
-module.exports = {
-  getProductById,
-  getAllProducts,
+
+export {
   createProduct,
-  deleteProducts,
   updateProducts,
+  deleteProducts,
+  getAllProducts,
+  getProductById,
 };
