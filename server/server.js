@@ -21,7 +21,7 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
   "https://shopsy-pink.vercel.app",
-  "https://render-z20m.onrender.com/",
+  "https://render-z20m.onrender.com/api",
 ];
 
 app.use(
