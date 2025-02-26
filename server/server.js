@@ -15,13 +15,17 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Test endpoint works!" });
+});
+
 // Middleware
 app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
   "https://shopsy-pink.vercel.app",
-  "https://render-z20m.onrender.com/api",
+  "https://latest-2anf.onrender.com",
 ];
 
 app.use(
