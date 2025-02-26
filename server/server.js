@@ -10,7 +10,6 @@ import otpRoutes from "./routes/otpRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
-
 connectDB();
 
 const app = express();
@@ -19,25 +18,20 @@ const PORT = process.env.PORT || 5001;
 // Middleware
 app.use(express.json());
 
-// Configure CORS
-const allowedOrigins = [
-  "http://localhost:5173", // Local development
-  "https://mern-backend-wwev.onrender.com", // Deployed frontend
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       }
+//       return callback(new Error("Not allowed by CORS"));
+//     },
+//     credentials: true, // For cookies & authorization headers
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
 
 // Routes
 app.use("/api/user", userRoutes);

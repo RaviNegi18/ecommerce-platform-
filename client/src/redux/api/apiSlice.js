@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://mern-backend-wwev.onrender.com",
+    baseUrl: "http://localhost:5000/api",
+    // import.meta.env.VITE_API_BASE_URL ||
 
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth?.admin?.token || getState().auth?.token;
