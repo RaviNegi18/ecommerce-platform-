@@ -25,14 +25,14 @@ app.get("/api/test", (req, res) => {
 app.use(express.json());
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://ecommerce-platform-client.vercel.app/",
+  "http://localhost:5173", // ✅ Local frontend ke liye
+  "https://ecommerce-platform-client.vercel.app", // ✅ Vercel frontend ke liye
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      console.log("🔍 Origin:", origin); // Debugging
+    origin: (origin, callback) => {
+      console.log("🔍 Request Origin:", origin); // Debugging
 
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
