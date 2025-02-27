@@ -13,6 +13,8 @@ dotenv.config();
 connectDB();
 
 const app = express();
+console.log("✅ Current MongoDB URI:", process.env.MONGO_URI);
+
 const PORT = process.env.PORT || 5001;
 
 app.get("/api/test", (req, res) => {
