@@ -1,9 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const baseUrl =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5173/api";
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://ecommerce-platform-backend-e3ho.onrender.com/api",
+    baseUrl, // ✅ Use baseUrl properly
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth?.admin?.token || getState().auth?.token;
       if (token) {
@@ -12,6 +15,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (userdata) => ({
@@ -37,7 +41,6 @@ export const apiSlice = createApi({
     userProfile: builder.query({
       query: () => "user/profile",
     }),
-
     createProduct: builder.mutation({
       query: (product) => ({
         method: "POST",
@@ -147,6 +150,7 @@ export const apiSlice = createApi({
   }),
 });
 
+// ✅ Correctly export hooks
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
