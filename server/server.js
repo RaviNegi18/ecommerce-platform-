@@ -26,16 +26,20 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://ecommerce-platform-backend-e3ho.onrender.com/api",
+  "https://ecommerce-platform-client.vercel.app/",
 ];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
+      console.log("🔍 Origin:", origin); // Debugging
+
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
+      } else {
+        console.log("❌ CORS Blocked:", origin); // Debugging
+        return callback(new Error("Not allowed by CORS"));
       }
-      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
