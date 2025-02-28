@@ -33,7 +33,7 @@ function Trending() {
 
   return (
     <div
-      className={`w-full sm:mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -42,6 +42,7 @@ function Trending() {
       </h2>
       <Carousel className="relative">
         <CarouselPrevious
+          onClick={(e) => e.stopPropagation()}
           className={`w-12 h-12 ${
             isDarkMode
               ? "bg-gray-700 text-white hover:bg-gray-600"
@@ -60,7 +61,10 @@ function Trending() {
                     ? "bg-gray-800 text-white shadow-gray-700"
                     : "bg-white text-gray-900 shadow-gray-300"
                 }`}
-                onClick={() => handleProductView(product._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProductView(product._id);
+                }}
               >
                 <img
                   src={product.images?.[0] || "https://via.placeholder.com/300"}
