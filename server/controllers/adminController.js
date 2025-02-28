@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const registerAdmin = async (req, res) => {
-  const { userName, email, password } = req.body;
+  const { userName, email, password, role } = req.body;
 
   try {
     const existingAdmin = await Admin.findOne({ email });
@@ -42,7 +42,7 @@ const registerAdmin = async (req, res) => {
         email: newAdmin.email,
         role: newAdmin.role,
       },
-      token, // Return token after registration
+      token,
     });
   } catch (error) {
     res

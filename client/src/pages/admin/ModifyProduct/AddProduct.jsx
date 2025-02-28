@@ -28,7 +28,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-3xl mt-20 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Add New Product</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -40,7 +40,6 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Description (required) */}
         <div>
           <Label htmlFor="description">Description</Label>
           <Textarea
@@ -50,7 +49,6 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Price (required) */}
         <div>
           <Label htmlFor="price">Price</Label>
           <Input

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const productSchema = new mongoose.Schema(
   {
@@ -31,13 +32,18 @@ const productSchema = new mongoose.Schema(
       reviews_count: { type: Number, default: 0 },
     },
     tags: { type: [String], default: [] },
-
     embedding: { type: [Number], default: [] },
   },
   { timestamps: true }
 );
 
-// 🔹 Full-Text Search Enable for MongoDB
+productSchema.pre("save", function (next) {
+  if (!this.slug) {
+    this.slug = slugify(this.title, { lower: true, strict: true });
+  }
+  next();
+});
+
 productSchema.index({ title: "text", description: "text", tags: "text" });
 
 export default mongoose.model("Product", productSchema);

@@ -34,7 +34,7 @@ function ExclusivePics() {
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-5 max-w-6xl mx-auto px-4 scroll-area ${
         isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -42,17 +42,17 @@ function ExclusivePics() {
       <div className="relative">
         <Carousel>
           <CarouselPrevious
-            className={`w-12 h-12 rounded-full absolute left-3 top-1/2 transform -translate-y-1/2 z-10 ${
+            className={`w-12 scroll-area h-12 rounded-full absolute left-3 top-1/2 transform -translate-y-1/2 z-10 ${
               isDarkTheme
                 ? "bg-gray-700 text-white hover:bg-gray-600"
                 : "bg-gray-900 text-white hover:bg-gray-700"
             }`}
           />
-          <CarouselContent className="flex gap-4 overflow-x-auto">
+          <CarouselContent className="flex gap-4 scroll-area overflow-x-auto">
             {exclusiveProducts?.map((product) => (
               <CarouselItem
                 key={product._id}
-                className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
+                className="basis-full scroll-area sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
               >
                 <motion.div
                   whileHover={{ scale: 1.05 }}

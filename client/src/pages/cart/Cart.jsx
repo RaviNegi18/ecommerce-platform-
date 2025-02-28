@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteFromCart } from "@/redux/cartSlice";
 import { usePlaceOrderMutation } from "@/redux/api/apiSlice";
 import myContext from "@/context/data/myContext";
-
+import { addToCart } from "@/redux/cartSlice";
 const Cart = () => {
   const [placeOrder, { isLoading }] = usePlaceOrderMutation();
   const userId = useSelector((state) => state?.auth?.user?.user?.id);
@@ -42,13 +42,12 @@ const Cart = () => {
       },
     };
 
-    console.log("Order Data:", orderData);
+    // console.log("Order Data:", orderData);
 
     try {
       const response = await placeOrder(orderData).unwrap();
       console.log("Order placed:", response);
       alert("Order placed successfully!");
-      // Optionally, clear the cart here if needed
     } catch (error) {
       console.error("Order Error:", error);
       alert(

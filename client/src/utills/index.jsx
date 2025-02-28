@@ -70,14 +70,7 @@ const AppRoutes = () => {
         </Route>
 
         {/* Admin Product Management */}
-        <Route
-          path="/admin/add-product"
-          element={
-            <ProtectedRouteForAdmin>
-              <AddProduct />
-            </ProtectedRouteForAdmin>
-          }
-        />
+        <Route path="/admin/add-product" element={<AddProduct />} />
         <Route
           path="/admin/edit-product/:_id"
           element={
