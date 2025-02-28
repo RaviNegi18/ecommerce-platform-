@@ -58,7 +58,7 @@ const Orders = () => {
                   {order._id}
                 </td>
                 <td className="py-2 px-4 border-r transition-colors duration-300">
-                  {order.userId.userName}
+                  {order?.userId?.userName}
                 </td>
                 <td className="py-2 px-4 border-r transition-colors duration-300">
                   {order.status}

@@ -63,12 +63,11 @@ const Login = () => {
     }
   };
 
-  // Theme classes
   const containerClass = isDarkTheme
-    ? "bg-slate-800 text-white"
+    ? "bg-slate-900 text-white"
     : "bg-slate-100 text-gray-800";
   const formClass = isDarkTheme
-    ? "bg-slate-700 text-white"
+    ? "bg-slate-800 text-white"
     : "bg-white text-gray-800";
   const inputClass = isDarkTheme
     ? "bg-slate-700 border-slate-600 text-white"
@@ -91,10 +90,10 @@ const Login = () => {
           />
         </div>
 
-        <div className="flex-1  mt-10 px-4 scroll-area::-webkit-scrollbar  flex items-center justify-center">
+        <div className="flex-1   mt-10 px-4 scroll-area::-webkit-scrollbar  flex items-center justify-center">
           <form
             onSubmit={handleSubmit(onSubmitLogin)}
-            className={`flex pt-10 flex-col justify-start scroll-area::-webkit-scrollbar   space-y-4 p-8 w-[400px] h-[600px] max-w-full shadow-md rounded-lg overflow-hidden ${formClass}`}
+            className={`flex  pt-10 flex-col justify-start scroll-area::-webkit-scrollbar  space-y-4 p-8 w-[400px] h-[600px] max-w-full shadow-md rounded-lg overflow-hidden ${formClass}`}
           >
             <div className="mb-6">
               <h1 className="text-center text-blue-500 text-3xl font-semibold">

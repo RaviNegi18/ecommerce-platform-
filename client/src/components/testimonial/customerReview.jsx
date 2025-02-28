@@ -70,11 +70,11 @@ function CustomerReview() {
                 : "bg-gray-900 text-white hover:bg-gray-700"
             } rounded-full absolute left-3 top-1/2 transform -translate-y-1/2 z-10`}
           />
-          <CarouselContent className="flex gap-4">
+          <CarouselContent className="flex  gap-4">
             {reviews.map((review) => (
               <CarouselItem
                 key={review.id}
-                className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                className="basis-full  sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
               >
                 <Card
                   className={`shadow-lg ${
