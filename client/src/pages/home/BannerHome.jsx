@@ -33,7 +33,7 @@ const BannerHome = () => {
   };
 
   return (
-    <section className="w-full flex items-center px-4 justify-center mt-26  sm:mt-10 sm:h-screen">
+    <section className="w-full flex items-center px-4 justify-center mt-[100px]  sm:mt-10 sm:h-screen">
       <div className="relative w-full max-w-6xl overflow-hidden rounded-lg shadow-xl">
         <div
           className="flex transition-transform duration-700 ease-in-out"
