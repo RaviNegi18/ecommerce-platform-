@@ -33,7 +33,7 @@ function Trending() {
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-3 max-w-6xl mx-auto px-4 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
