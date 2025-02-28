@@ -52,7 +52,6 @@ function NewArrival() {
     return () => clearInterval(interval);
   }, [emblaApi]);
 
-  // Filtering new arrivals from last 2 days
   const today = new Date();
   const twoDaysAgo = new Date();
   twoDaysAgo.setDate(today.getDate() - 2);
@@ -95,7 +94,7 @@ function NewArrival() {
               {filteredProducts.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="sm:basis-full md:basis-1/2 lg:basis-1/4 p-4"
+                  className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-4"
                 >
                   <Card
                     className={`relative p-5 w-full h-[400px] transform hover:scale-105 transition-transform duration-300 shadow-lg ${
