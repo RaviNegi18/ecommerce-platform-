@@ -11,7 +11,6 @@ import {
 } from "../controllers/adminController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import roleMiddleware from "../middleware/roleMiddleware.js";
-a;
 
 const router = express.Router();
 
