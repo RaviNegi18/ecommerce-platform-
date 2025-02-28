@@ -102,7 +102,6 @@ const Navbar = () => {
           )}
         </Button>
 
-        {/* User Avatar Dropdown */}
         {user || admin ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -171,7 +170,7 @@ const Navbar = () => {
                 <NavLink
                   onClick={handleClose}
                   key={index}
-                  to={`/${item.toLowerCase()}`}
+                  to={item == "Home" ? "/" : `/${item.toLowerCase()}`}
                   className={({ isActive }) =>
                     `text-lg hover:text-blue-500 ${
                       isActive ? "text-blue-600 font-bold" : ""

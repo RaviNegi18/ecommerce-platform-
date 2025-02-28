@@ -9,7 +9,6 @@ const BannerHome = () => {
   const { data: products, isLoading, error } = useGetAllProductsQuery();
   const [currentImage, setCurrentImage] = useState(0);
 
-  // Filter products with images
   const validProducts =
     products?.filter((product) => product.images?.length > 0) || [];
 
@@ -34,7 +33,7 @@ const BannerHome = () => {
   };
 
   return (
-    <section className="w-full flex items-center px-4 justify-center mt-10 h-screen">
+    <section className="w-full flex items-center px-4 justify-center sm:mt-10 h-screen">
       <div className="relative w-full max-w-6xl  overflow-hidden rounded-lg shadow-xl">
         <div
           className="flex transition-transform duration-700 ease-in-out"
