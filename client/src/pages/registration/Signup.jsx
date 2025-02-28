@@ -23,16 +23,18 @@ const SignUp = () => {
   const [registerAdmin] = useRegisterAdminMutation();
 
   const onSubmitSignup = async (data) => {
+    console.log("data", data);
     try {
       let response;
-      response =
-        data.role === "admin"
-          ? await registerAdmin(data).unwrap()
-          : await registerUser(data).unwrap();
+      response = data.role === "admin";
+      console.log("data", data)
+        ? await registerAdmin(data).unwrap()
+        : await registerUser(data).unwrap();
 
       showSuccessToast("Signup successful! Welcome aboard 🎉");
       navigate("/sign-in");
     } catch (error) {
+      console.log(error);
       showErrorToast(error?.data?.message || "Oops! Signup failed. Try again.");
     }
   };

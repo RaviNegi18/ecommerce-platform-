@@ -13,7 +13,6 @@ dotenv.config();
 connectDB();
 
 const app = express();
-console.log("✅ Current MongoDB URI:", process.env.MONGO_URI);
 
 const PORT = process.env.PORT || 5001;
 
@@ -25,19 +24,16 @@ app.get("/api/test", (req, res) => {
 app.use(express.json());
 
 const allowedOrigins = [
-  "http://localhost:5173", // ✅ Local frontend ke liye
-  "https://ecommerce-platform-client.vercel.app", // ✅ Vercel frontend ke liye
+  "http://localhost:5173",
+  "https://ecommerce-platform-client.vercel.app",
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("🔍 Request Origin:", origin); // Debugging
-
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
-        console.log("❌ CORS Blocked:", origin); // Debugging
         return callback(new Error("Not allowed by CORS"));
       }
     },
