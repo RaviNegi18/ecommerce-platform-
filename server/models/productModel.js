@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import slugify from "slugify";
 
 const productSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
-    slug: { type: String, unique: true },
+    slug: { type: String, unique: true, default: "" },
     description: { type: String, required: true },
     price: { type: Number, required: true },
     discounted_price: { type: Number, default: null },
@@ -36,13 +35,6 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-productSchema.pre("save", function (next) {
-  if (!this.slug) {
-    this.slug = slugify(this.title, { lower: true, strict: true });
-  }
-  next();
-});
 
 productSchema.index({ title: "text", description: "text", tags: "text" });
 
