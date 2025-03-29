@@ -24,7 +24,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://ecommerce-platform-client.vercel.app",
+  "shopsy-8us9zptwf-ravi-negi07s-projects.vercel.app",
 ];
 
 // app.use(
@@ -53,7 +53,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/otp", otpRoutes);
-a;
+
 app.use("/api/orders", orderRoutes);
 
 app.listen(PORT, () => {
