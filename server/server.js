@@ -45,7 +45,7 @@ const allowedOrigins = [
 app.use(
   cors({
     origin:
-      "http://localhost:5173" || "https://ecommerce-platform-client.vercel.app",
+      "http://localhost:5173" || "https://ecommerce-platform-yqkq.vercel.app/",
   })
 );
 
