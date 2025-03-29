@@ -42,14 +42,13 @@ const allowedOrigins = [
 //   })
 // );
 
-// app.use(
-//   cors({
-//     origin:
-//       "http://localhost:5173" ||
-//       "https://ecommerce-platform-beta-nine.vercel.app/",
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      "http://localhost:5173" ||
+      "https://ecommerce-platform-git-main-ravi-negi07s-projects.vercel.app/",
+  })
+);
 
 app.use("/api/user", userRoutes);
 app.use("/api/products", productRoutes);
