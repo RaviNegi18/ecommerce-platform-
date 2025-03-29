@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-  console.log("cononoc", process.env.MONGO_URI);
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose
+      .connect(process.env.MONGO_URI)
+      .then(() => console.log("connevted to mango UrI"))
+      .catch((error) => console.log(`error in  mangoConnection${error}`));
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error);

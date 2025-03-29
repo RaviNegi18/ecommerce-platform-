@@ -20,7 +20,6 @@ app.get("/api/test", (req, res) => {
   res.json({ message: "Test endpoint works!" });
 });
 
-// Middleware
 app.use(express.json());
 
 const allowedOrigins = [
@@ -28,26 +27,33 @@ const allowedOrigins = [
   "https://ecommerce-platform-client.vercel.app",
 ];
 
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       } else {
+//         return callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin:
+      "http://localhost:5173" || "https://ecommerce-platform-client.vercel.app",
   })
 );
 
-// Routes
 app.use("/api/user", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/otp", otpRoutes);
+a;
 app.use("/api/orders", orderRoutes);
 
 app.listen(PORT, () => {
