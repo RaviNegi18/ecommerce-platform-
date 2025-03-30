@@ -46,7 +46,7 @@ app.use(
   cors({
     origin:
       "http://localhost:5173" ||
-      "https://ecommerce-platform-git-main-ravi-negi07s-projects.vercel.app/",
+      "https://ecommerce-platform-beta-nine.vercel.app/",
   })
 );
 
