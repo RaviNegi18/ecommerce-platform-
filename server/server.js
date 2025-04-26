@@ -44,9 +44,13 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin:
-      "http://localhost:5173" ||
-      "https://ecommerce-platform-beta-nine.vercel.app/",
+    origin: [
+      "http://localhost:5173",
+      "https://ecommerce-platform-peach.vercel.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
