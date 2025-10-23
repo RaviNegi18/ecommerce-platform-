@@ -11,8 +11,8 @@ function Footer() {
 
   return (
     <footer
-      className={`w-full py-8 md:py-12 ${
-        isDarkMode ? "bg-gray-900 text-gray-300" : "bg-gray-200 text-gray-800"
+      className={`w-full py-8 mt-10 md:py-12 ${
+        isDarkMode ? "bg-gray-[#191919] text-white" : "bg-gray-100 text-gray-800"
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 lg:px-24">

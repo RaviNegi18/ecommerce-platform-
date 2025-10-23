@@ -26,7 +26,7 @@ function Home() {
         <ExclusivePics />
         <TopRated />
 
-        <CustomerReview />
+        {/* <CustomerReview /> */}
       </Layout>
     </>
   );
