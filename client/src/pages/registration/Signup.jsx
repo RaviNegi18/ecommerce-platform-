@@ -38,7 +38,6 @@ const SignUp = () => {
       showErrorToast(error?.data?.message || "Oops! Signup failed. Try again.");
     }
   };
-
   return (
     <div
       className={`w-full min-h-screen flex flex-col lg:flex-row items-center justify-center gap-8 p-6 ${
