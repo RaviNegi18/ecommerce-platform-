@@ -3,4 +3,6 @@
 /client/.env
 /server/.env
 .env
+client/.env
+server/.env
 node_modules
