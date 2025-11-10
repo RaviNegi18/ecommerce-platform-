@@ -67,7 +67,7 @@ function NewArrival() {
   };
 
   return (
-    <div className="w-full mt-5 max-w-6xl mx-auto">
+    <div className="w-full mt-5 custom-container mx-auto">
       <h2
         className={`text-3xl font-bold text-start mb-6 ${
           isDarkMode ? "text-white" : "text-gray-800"
@@ -94,7 +94,7 @@ function NewArrival() {
               {filteredProducts.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-4"
+                  className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5  p-4"
                 >
                   <Card
                     className={`relative p-5 w-full h-[400px] transform hover:scale-105 transition-transform duration-300 shadow-lg ${

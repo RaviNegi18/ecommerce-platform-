@@ -4,13 +4,18 @@ import { deleteFromCart } from "@/redux/cartSlice";
 import { usePlaceOrderMutation } from "@/redux/api/apiSlice";
 import myContext from "@/context/data/myContext";
 import { addToCart } from "@/redux/cartSlice";
+import { resetCart } from "@/redux/cartSlice";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
+  const navigate = useNavigate()
   const [placeOrder, { isLoading }] = usePlaceOrderMutation();
   const userId = useSelector((state) => state?.auth?.user?.user?.id);
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
   const itemCount = useSelector((state) => state.cart.itemCount);
   const shipping = 100;
+
 
   const { mode } = useContext(myContext);
   const isDarkMode = mode === "dark";
@@ -48,36 +53,39 @@ const Cart = () => {
       const response = await placeOrder(orderData).unwrap();
       console.log("Order placed:", response);
       alert("Order placed successfully!");
+      dispatch(
+        resetCart()
+      )
+      navigate("/")
     } catch (error) {
       console.error("Order Error:", error);
       alert(
         "Failed to place order: " +
-          (error?.data?.message || error?.message || "Something went wrong!")
+        (error?.data?.message || error?.message || "Something went wrong!")
       );
     }
   };
 
-  const totalPrice = items.reduce(
+  const totalPrice = Array.isArray(items) ? items?.reduce(
     (total, item) =>
       total + (item.discounted_price || item.price) * item.quantity,
     0
-  );
+  ) : 0;
 
-  const totalDiscount = items.reduce(
+  const totalDiscount = Array.isArray(items) ? items.reduce(
     (total, item) =>
       total +
       (item.discounted_price ? item.price - item.discounted_price : 0) *
-        item.quantity,
+      item.quantity,
     0
-  );
+  ) : 0;
 
   const grandTotal = totalPrice + shipping;
 
   return (
     <div
-      className={`min-h-screen mt-20 p-6 ${
-        isDarkMode ? "bg-gray-800 text-gray-200" : "bg-gray-50 text-gray-800"
-      }`}
+      className={`min-h-screen mt-20 p-6 ${isDarkMode ? "bg-gray-800 text-gray-200" : "bg-gray-50 text-gray-800"
+        }`}
     >
       <h1 className="text-4xl font-bold m-4 text-blue-600">
         Your Cart ({itemCount} items)
@@ -87,12 +95,11 @@ const Cart = () => {
         <p>Your cart is empty!</p>
       ) : (
         <div className="space-y-4">
-          {items.map((item) => (
+          {Array.isArray(items) && items.map((item) => (
             <div
               key={item._id}
-              className={`flex justify-between items-center border-b py-4 ${
-                isDarkMode ? "border-gray-700" : "border-gray-300"
-              }`}
+              className={`flex justify-between items-center border-b py-4 ${isDarkMode ? "border-gray-700" : "border-gray-300"
+                }`}
             >
               <img
                 src={item?.images[0]}
@@ -120,7 +127,7 @@ const Cart = () => {
           <div className="border-t pt-4">
             <div className="flex justify-between">
               <p className="text-gray-700">Subtotal</p>
-              <p className="text-gray-700">${totalPrice.toFixed(2)}</p>
+              <p className="text-gray-700">${totalPrice?.toFixed(2)}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700">Discount</p>

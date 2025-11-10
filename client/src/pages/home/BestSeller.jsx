@@ -72,7 +72,7 @@ function BestSeller() {
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-5 custom-container mx-auto px-4 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -101,7 +101,7 @@ function BestSeller() {
               {bestSellers.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="basis-full h-[500px] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-4"
+                  className="basis-full h-[500px] sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
                 >
                   <Card
                     className={`relative p-5 h-[450px] w-full transform hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg ${

@@ -33,8 +33,8 @@ const BannerHome = () => {
   };
 
   return (
-    <section className="w-full flex items-center px-4 justify-center mt-22  sm:mt-10 sm:h-screen">
-      <div className="relative w-full max-w-6xl overflow-hidden rounded-lg shadow-xl">
+    <section className="w-full flex mt-20 items-center px-4 justify-center">
+      <div className="relative h-full w-full max-w-6xl xl:max-w-7xl 2xl:max-w-full overflow-hidden rounded-lg shadow-xl">
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentImage * 100}%)` }}
@@ -44,11 +44,11 @@ const BannerHome = () => {
               <img
                 src={product.images[0]}
                 alt={product.title}
-                className="w-full h-auto max-h-96 object-contain rounded-lg"
+                className="w-full sm:min-h-[600px] h-auto max-h-96 object-contain rounded-lg"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent p-6 flex flex-col justify-end text-white">
-                <h1 className="text-2xl font-bold">{product.title}</h1>
+                <h1 className="text-2xl py-4 font-bold">{product.title}</h1>
                 <p className="line-clamp-2 text-sm opacity-75">
                   {product.description}
                 </p>

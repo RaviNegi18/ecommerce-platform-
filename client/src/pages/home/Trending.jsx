@@ -33,7 +33,7 @@ function Trending() {
 
   return (
     <div
-      className={`w-full mt-3 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-3 sm:mt-8 custom-container mx-auto px-4 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -53,7 +53,7 @@ function Trending() {
           {TrendingProducts?.map((product) => (
             <CarouselItem
               key={product._id}
-              className="basis-full sm:basis-1/2 h-[450px] md:basis-1/3 lg:basis-1/4"
+              className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
             >
               <Card
                 className={`sm:p-4 h-[400px] w-full hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg cursor-pointer ${

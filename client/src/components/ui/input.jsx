@@ -2,7 +2,8 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-const Input = React.forwardRef(({ className, type, ...props }, ref) => {
+const Input = React.forwardRef(({ className, type,value, ...props }, ref) => {
+  console.log("here si stge=========",value)
   return (
     (<input
       type={type}

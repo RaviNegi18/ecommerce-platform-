@@ -23,7 +23,7 @@ const Recommended = ({ category, onProductSelect }) => {
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-5 custom-container mx-auto px-4 ${
         isDarkMode ? "bg-gray-900 text-white" : ""
       }`}
     >
@@ -37,7 +37,7 @@ const Recommended = ({ category, onProductSelect }) => {
           {filterProducts.map((product) => (
             <CarouselItem
               key={product._id}
-              className="w-1/4 sm:basis-full md:basis-1/2 lg:basis-1/4 p-4"
+              className="w-1/4 sm:basis-full md:basis-1/3 lg:basis-1/5 p-4"
             >
               <Card
                 className={`p-4 cursor-pointer shadow-lg ${
