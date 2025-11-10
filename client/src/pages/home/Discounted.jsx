@@ -33,7 +33,7 @@ function DiscountProducts() {
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-5 custom-container mx-auto px-4 ${
         isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -54,7 +54,7 @@ function DiscountProducts() {
               DiscountedProducts.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
+                  className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
                 >
                   <Card
                     className={`p-4 min-h-[400px] w-full hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg cursor-pointer ${

@@ -163,6 +163,7 @@ CarouselItem.displayName = "CarouselItem";
 const CarouselPrevious = React.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+    if (!canScrollPrev) return null;
 
     return (
       <Button
@@ -191,6 +192,7 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = React.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollNext, canScrollNext } = useCarousel();
+    if (!canScrollNext) return null;
 
     return (
       <Button

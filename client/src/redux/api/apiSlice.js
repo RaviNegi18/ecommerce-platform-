@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = 'http://localhost:5000/api/products' || import.meta.env.VITE_API_BASE_URL 
+const baseUrl =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5001/api/";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -149,7 +150,7 @@ export const apiSlice = createApi({
   }),
 });
 
-// ✅ Correctly export hooks
+
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,

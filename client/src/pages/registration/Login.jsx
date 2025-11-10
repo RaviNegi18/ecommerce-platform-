@@ -81,19 +81,19 @@ const Login = () => {
       className={`w-full min-h-screen flex scroll-area::-webkit-scrollbar items-center justify-center ${containerClass} px-4`}
     >
       <div className="flex flex-col   scroll-area::-webkit-scrollbar md:flex-row items-center justify-center gap-8 w-full max-w-6xl">
-        <div className="hidden py-10 md:flex flex-1 px-4">
+        {/* <div className="hidden py-10 md:flex flex-1 px-4">
           <img
             src="https://ecme-react.themenate.net/img/others/auth-side-bg.png"
             alt="Login Visual"
             className="w-full h-[600px] mt-10 rounded-r-3xl object-cover"
             style={{ transform: "scaleX(-1)" }}
           />
-        </div>
+        </div> */}
 
         <div className="flex-1   mt-10 px-4 scroll-area::-webkit-scrollbar  flex items-center justify-center">
           <form
             onSubmit={handleSubmit(onSubmitLogin)}
-            className={`flex  pt-10 flex-col justify-start scroll-area::-webkit-scrollbar  space-y-4 p-8 w-[400px] h-[600px] max-w-full shadow-md rounded-lg overflow-hidden ${formClass}`}
+            className={`flex  pt-10 flex-col justify-start scroll-area::-webkit-scrollbar  space-y-4 p-8 w-[500px] h-[500px] max-w-full shadow-md rounded-lg overflow-hidden ${formClass}`}
           >
             <div className="mb-6">
               <h1 className="text-center text-blue-500 text-3xl font-semibold">
@@ -175,7 +175,7 @@ const Login = () => {
                 </p>
               )}
             </div>
-
+{/* 
             <div>
               <label
                 htmlFor="role"
@@ -198,7 +198,7 @@ const Login = () => {
                   {errors.role.message}
                 </p>
               )}
-            </div>
+            </div> */}
 
             <Button
               type="submit"

@@ -63,13 +63,13 @@ function TopRated() {
   }, [emblaApi]);
 
   const handleProductView = (id) => {
-    // Add your navigation logic here, e.g., navigate(`/productinfo/${id}`)
+     navigate(`/productinfo/${id}`)
     console.log("Product clicked:", id);
   };
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 ${
+      className={`w-full mt-5 custom-container mx-auto px-4 ${
         isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -94,11 +94,11 @@ function TopRated() {
                   : "bg-gray-900 text-white hover:bg-gray-700"
               }`}
             />
-            <CarouselContent ref={emblaRef} className="-ml-4">
+            <CarouselContent ref={emblaRef} className="-ml-4 gap-4">
               {topRated.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
+                  className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5  px-4"
                 >
                   <Card
                     className={`relative p-5 w-full transform hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg overflow-hidden ${

@@ -47,6 +47,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://ecommerce-platform-peach.vercel.app",
+      "https://ecommerce-platform-theta-six.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],

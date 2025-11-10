@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BsFillCloudMoonFill } from "react-icons/bs";
+import { IoMdMoon } from "react-icons/io";
 import { FiSun } from "react-icons/fi";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
@@ -43,21 +43,20 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 py-3 px-6 shadow-md flex items-center justify-between ${
-        isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
-      } transition-all duration-300`}
+      className={`fixed top-0 w-full z-50 py-3 px-6 shadow-md flex items-center justify-between ${isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        } transition-all duration-300`}
     >
       <Link to="/" className="text-2xl font-bold text-blue-500">
         Shopsy
       </Link>
 
-      <ul className="hidden md:flex items-center space-x-8 text-lg font-medium">
+      <ul className="hidden md:flex items-center space-x-8 text-md font-medium">
         {["Home", "Products", "Contacts"].map((item, index) => (
           <NavLink
             key={index}
             to={item == "Home" ? "/" : `/${item.toLowerCase()}`}
             className={({ isActive }) =>
-              `hover:text-blue-500 ${isActive ? "text-blue-600 font-bold" : ""}`
+              `hover:text-blue-500 ${isActive ? "text-blue-600 font-regular" : ""}`
             }
           >
             {item}
@@ -96,9 +95,10 @@ const Navbar = () => {
           className="h-10 w-10 rounded-full transition-all"
         >
           {isDarkTheme ? (
-            <BsFillCloudMoonFill size={25} className="text-yellow-400" />
-          ) : (
             <FiSun size={25} className="text-yellow-500" />
+
+          ) : (
+            <IoMdMoon size={25} className="text-yellow-400" />
           )}
         </Button>
 
@@ -131,20 +131,18 @@ const Navbar = () => {
           <div className="hidden md:flex gap-4">
             <Button
               variant="outline"
-              className={`border-2 ${
-                isDarkTheme
-                  ? "border-white bg-blue-500 text-white hover:bg-white hover:text-blue-600"
-                  : "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-              }`}
+              className={`border text-sm ${isDarkTheme
+                ? "border-white bg-blue-500 text-white hover:bg-white hover:text-blue-600"
+                : "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                }`}
             >
               <Link to="/sign-in">Sign In</Link>
             </Button>
             <Button
-              className={`${
-                isDarkTheme
-                  ? "bg-white text-blue-600 hover:bg-gray-300"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              }`}
+              className={`${isDarkTheme
+                ? "bg-white text-blue-600 hover:bg-gray-300"
+                : "bg-blue-600 text-white hover:bg-white hover:text-blue-500"
+                }`}
             >
               <Link to="/sign-up">Sign Up</Link>
             </Button>
@@ -161,9 +159,8 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent
             side="right"
-            className={`w-[250px] ${
-              isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-black"
-            }`}
+            className={`w-[250px] ${isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-black"
+              }`}
           >
             <div className="flex flex-col items-start space-y-4 mt-6">
               {["Home", "Products", "Contacts"].map((item, index) => (
@@ -172,8 +169,7 @@ const Navbar = () => {
                   key={index}
                   to={item == "Home" ? "/" : `/${item.toLowerCase()}`}
                   className={({ isActive }) =>
-                    `text-lg hover:text-blue-500 ${
-                      isActive ? "text-blue-600 font-bold" : ""
+                    `text-lg hover:text-blue-500 ${isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
                 >
@@ -184,8 +180,7 @@ const Navbar = () => {
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
-                    `text-lg hover:text-blue-500 ${
-                      isActive ? "text-blue-600 font-bold" : ""
+                    `text-lg hover:text-blue-500 ${isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
                 >
@@ -206,21 +201,19 @@ const Navbar = () => {
                   <Button
                     variant="outline"
                     onClick={handleClose}
-                    className={`border-2 ${
-                      isDarkTheme
-                        ? "border-white bg-blue-500 text-white hover:bg-white hover:text-blue-600"
-                        : "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-                    }`}
+                    className={`border-2 ${isDarkTheme
+                      ? "border-white bg-blue-500 text-white hover:bg-white hover:text-blue-600"
+                      : "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                      }`}
                   >
                     <Link to="/sign-in">Sign In</Link>
                   </Button>
                   <Button
                     onClick={handleClose}
-                    className={`${
-                      isDarkTheme
-                        ? "bg-white text-blue-600 hover:bg-gray-300"
-                        : "bg-blue-600 text-white hover:bg-blue-700"
-                    }`}
+                    className={`${isDarkTheme
+                      ? "bg-white text-blue-600 hover:bg-gray-300"
+                      : "bg-blue-600 text-white hover:bg-blue-100 hover:text-blue-500"
+                      }`}
                   >
                     <Link to="/sign-up">Sign Up</Link>
                   </Button>

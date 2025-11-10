@@ -44,10 +44,10 @@ const SignUp = () => {
         isDarkTheme ? "bg-slate-900 text-white" : "bg-slate-100 text-gray-800"
       }`}
     >
-      <div className="w-full h-[750px] mt-10 flex justify-center">
+      <div className="w-full h-[650px] mt-10 flex justify-center">
         <form
           onSubmit={handleSubmit(onSubmitSignup)}
-          className={`space-y-6 p-8 w-[400px] shadow-lg rounded-lg transition-all duration-300 ${
+          className={`space-y-6 p-8 w-[500px] shadow-lg rounded-lg transition-all duration-300 ${
             isDarkTheme ? "bg-slate-800 text-white" : "bg-white text-gray-800"
           }`}
         >
@@ -122,7 +122,7 @@ const SignUp = () => {
             </div>
           ))}
 
-          <div>
+          {/* <div>
             <label htmlFor="role" className="block mb-2 font-semibold">
               Select Role:
             </label>
@@ -141,7 +141,7 @@ const SignUp = () => {
             {errors.role && (
               <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
             )}
-          </div>
+          </div> */}
 
           <button
             type="submit"
@@ -167,13 +167,13 @@ const SignUp = () => {
         </form>
       </div>
 
-      <div className="hidden h-[750px] mt-10  lg:flex w-full justify-center">
+      {/* <div className=" flex-1 flex h-[750px] mt-10  lg:flex w-full justify-center">
         <img
           src="https://ecme-react.themenate.net/img/others/auth-side-bg.png"
           alt="Sign Up Illustration"
           className="w-full h-[750px]  object-cover rounded-r-3xl opacity-90 shadow-lg"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -34,7 +34,7 @@ function ExclusivePics() {
 
   return (
     <div
-      className={`w-full mt-5 max-w-6xl mx-auto px-4 scroll-area ${
+      className={`w-full mt-5 custom-container mx-auto px-4 scroll-area ${
         isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -52,7 +52,7 @@ function ExclusivePics() {
             {exclusiveProducts?.map((product) => (
               <CarouselItem
                 key={product._id}
-                className="basis-full scroll-area sm:basis-1/2 md:basis-1/3 lg:basis-1/4 px-2"
+                className="basis-full scroll-area sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
               >
                 <motion.div
                   whileHover={{ scale: 1.05 }}
