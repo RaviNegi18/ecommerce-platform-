@@ -1,6 +1,5 @@
 # Ignore environment variables
-
-
-
 .env
 node_modules
+/server/.env
+/client/.env
