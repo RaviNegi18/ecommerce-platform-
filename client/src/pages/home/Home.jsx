@@ -17,7 +17,7 @@ function Home() {
   // console.log("Admin is here", Admin);
   return (
     <>
-      <Layout>
+      <Layout className="flex flex-col gap-10">
         <BannerHome />
         <Trending />
         <NewArrival />

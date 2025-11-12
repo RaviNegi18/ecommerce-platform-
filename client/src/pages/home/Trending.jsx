@@ -49,11 +49,11 @@ function Trending() {
               : "bg-gray-900 text-white hover:bg-gray-700"
           } rounded-full absolute left-3 top-1/2 transform -translate-y-1/2 z-10`}
         />
-        <CarouselContent className="flex gap-4">
+        <CarouselContent className="flex px-4 gap-4">
           {TrendingProducts?.map((product) => (
             <CarouselItem
               key={product._id}
-              className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
+              className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-2"
             >
               <Card
                 className={`sm:p-4 h-[400px] w-full hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg cursor-pointer ${

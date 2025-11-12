@@ -76,11 +76,11 @@ function BestSeller() {
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
-      <h2 className="text-3xl font-bold text-start mb-6">
+      <h2 className="text-2xl font-bold text-start mb-6">
         🔥 Best Selling Products
       </h2>
       {isLoading ? (
-        <div className="flex gap-4">
+        <div className="flex px-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <Skeleton key={i} className="w-48 h-60 rounded-lg" />
           ))}
@@ -97,14 +97,14 @@ function BestSeller() {
                   : "bg-gray-900 text-white hover:bg-gray-700"
               }`}
             />
-            <CarouselContent ref={emblaRef} className="-ml-4">
+            <CarouselContent ref={emblaRef} className="-ml-4 px-4 gap-4">
               {bestSellers.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="basis-full h-[500px] sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
+                  className="basis-full  sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-2"
                 >
                   <Card
-                    className={`relative p-5 h-[450px] w-full transform hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg ${
+                    className={`relative p-5 min-h-[400px] w-full transform hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg ${
                       isDarkMode ? "bg-gray-800" : "bg-white"
                     }`}
                     onClick={() => handleProductView(product._id)}

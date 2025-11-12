@@ -80,7 +80,7 @@
 
 @layer base {
   .custom-container {
-    @apply mx-auto max-w-6xl lg:max-w-7xl xl:max-w-[1400px] 2xl:max-w-full;
+    @apply mx-auto px-10 max-w-6xl lg:max-w-7xl xl:max-w-[1400px] 2xl:max-w-full;
   }
 }
 

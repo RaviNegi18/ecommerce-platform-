@@ -94,11 +94,11 @@ function TopRated() {
                   : "bg-gray-900 text-white hover:bg-gray-700"
               }`}
             />
-            <CarouselContent ref={emblaRef} className="-ml-4 gap-4">
+            <CarouselContent ref={emblaRef} className="-ml-4 px-4 gap-4">
               {topRated.map((product) => (
                 <CarouselItem
                   key={product._id}
-                  className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5  px-4"
+                  className="basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5  px-2"
                 >
                   <Card
                     className={`relative p-5 w-full transform hover:scale-105 transition-transform duration-300 shadow-lg rounded-lg overflow-hidden ${

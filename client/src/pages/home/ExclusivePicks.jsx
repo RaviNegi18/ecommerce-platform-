@@ -48,11 +48,11 @@ function ExclusivePics() {
                 : "bg-gray-900 text-white hover:bg-gray-700"
             }`}
           />
-          <CarouselContent className="flex gap-4 scroll-area overflow-x-auto">
+          <CarouselContent className="flex gap-4 px-4 scroll-area overflow-x-auto">
             {exclusiveProducts?.map((product) => (
               <CarouselItem
                 key={product._id}
-                className="basis-full scroll-area sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4"
+                className="basis-full scroll-area sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-2"
               >
                 <motion.div
                   whileHover={{ scale: 1.05 }}
