@@ -27,6 +27,7 @@ const allowedOrigins = [
   "shopsy-8us9zptwf-ravi-negi07s-projects.vercel.app",
 ];
 
+app.use(cors())
 // app.use(
 //   cors({
 //     origin: (origin, callback) => {
