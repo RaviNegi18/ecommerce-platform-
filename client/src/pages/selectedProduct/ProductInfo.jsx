@@ -8,19 +8,18 @@ import { Star, ShoppingCart } from "lucide-react";
 import Recommended from "./RecomendedProdect";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/cartSlice";
-import { toast } from "react-toastify";
+import { showSuccessToast, showInfoToast } from "@/utills/ToastUtills";
 
 const ProductInfo = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const { _id } = useParams();
   const { data: products, isLoading, error } = useGetAllProductsQuery();
   const userRole = useSelector((state) => state?.auth?.user?.user?.role);
   const items = useSelector((state) => state.cart.items);
 
-console.log("here si sthe item====",items)
-  // Ref to track which products already showed toast
   const shownToasts = useRef(new Set());
 
   const initialProduct = useMemo(() => {
@@ -38,104 +37,175 @@ console.log("here si sthe item====",items)
   if (!selectedProduct)
     return <p className="text-center text-gray-500 mt-10">Product not found.</p>;
 
-  // Find if this product already exists in cart
+  const productPrice = selectedProduct?.discounted_price || selectedProduct?.discountPrice || selectedProduct?.price;
+  const originalPrice = selectedProduct?.price;
+  const savings = originalPrice && productPrice ? originalPrice - productPrice : 0;
+  const isDiscounted = !!selectedProduct?.discounted_price || !!selectedProduct?.discountPrice;
+
   const cartItem = Array.isArray(items) && items?.find((item) => item._id === selectedProduct._id);
-
-
   const quantityInCart = cartItem?.quantity || 0;
 
   const addTocart = () => {
-  
     if (userRole === "user" || userRole === "admin") {
-      // Show toast only once per product
       if (!shownToasts.current.has(selectedProduct._id)) {
-        toast.success("Product successfully added to cart!", {
-          autoClose: 2000,
-          position: "top-center",
-        });
+        showSuccessToast("Product successfully added to cart!");
         shownToasts.current.add(selectedProduct._id);
       }
-
-      // Add product to cart
- 
-      dispatch(addToCart({ ...selectedProduct, quantity: 1 }));
+      dispatch(addToCart({ ...selectedProduct, quantity }));
     } else {
-      alert("You have to login first to add this product to cart.");
+      showInfoToast("You have to login first to add this product to cart.");
       navigate("/sign-in");
     }
   };
 
   return (
-    <div className="w-full p-4 flex flex-col items-center mt-20">
-      <div className="grid grid-cols-12 gap-6 w-full max-w-5xl">
-        {/* Thumbnails */}
-        <div className="col-span-12 sm:col-span-2 hidden sm:flex flex-col gap-2">
-          {selectedProduct?.images?.slice(0, 3).map((img, index) => (
-            <Card
-              key={index}
-              className="w-28 h-24 shadow-lg hover:scale-105 transition"
-            >
-              <img
-                src={img}
-                alt={`Thumbnail ${index}`}
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </Card>
-          ))}
-        </div>
+    <section className="min-h-screen mt-24 px-4 py-8">
+      <div className="mx-auto w-full max-w-[1200px] space-y-8">
+        <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-200/50 dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="space-y-6 p-6 md:p-8">
+              <div className="grid gap-4 lg:grid-cols-[110px_1fr]">
+                <div className="hidden flex-col gap-3 lg:flex">
+                  {selectedProduct?.images?.slice(0, 4).map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedProduct({ ...selectedProduct, mainImage: img })}
+                      className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 p-1 transition hover:border-blue-500 dark:border-slate-800 dark:bg-slate-900"
+                    >
+                      <img src={img} alt={`Thumbnail ${index}`} className="h-24 w-full object-cover" />
+                    </button>
+                  ))}
+                </div>
 
-        {/* Main Image */}
-        <div className="col-span-12 sm:col-span-5 flex justify-center">
-          <Card className="w-[400px] h-[400px] flex items-center justify-center shadow-xl">
-            <img
-              src={selectedProduct?.images?.[0]}
-              alt={selectedProduct?.title}
-              className="w-full h-full object-contain"
-            />
-          </Card>
-        </div>
+                <div className="relative overflow-hidden rounded-[1.75rem] bg-slate-100 p-4 dark:bg-slate-900">
+                  <img
+                    src={selectedProduct?.images?.[0]}
+                    alt={selectedProduct?.title}
+                    className="h-[420px] w-full rounded-[1.5rem] object-cover"
+                  />
+                  <div className="absolute left-4 top-4 rounded-full bg-black/60 px-4 py-2 text-sm text-white">
+                    {selectedProduct?.brand || "Top Seller"}
+                  </div>
+                </div>
+              </div>
 
-        {/* Product Details */}
-        <div className="col-span-12 sm:col-span-5 flex flex-col justify-center">
-          <CardContent>
-            <Badge variant="secondary" className="text-gray-500">
-              {selectedProduct?.category}
-            </Badge>
-            <h2 className="text-2xl font-bold mt-2">{selectedProduct?.title}</h2>
-            <p className="text-gray-600 mt-2">{selectedProduct?.description}</p>
-
-            <div className="flex items-center mt-3">
-              <Star className="text-yellow-500" size={20} />
-              <span className="text-gray-500 ml-1">({selectedProduct?.reviews} Reviews)</span>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Product details</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    {selectedProduct?.description}
+                  </p>
+                </div>
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Key info</p>
+                  <ul className="mt-3 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                    <li>
+                      <span className="font-semibold">Category:</span> {selectedProduct?.category}
+                    </li>
+                    <li>
+                      <span className="font-semibold">Availability:</span> {selectedProduct.inStock ? "In Stock" : "Out of Stock"}
+                    </li>
+                    <li>
+                      <span className="font-semibold">SKU:</span> {selectedProduct?.sku || selectedProduct?._id}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-3">
-              <span className="text-xl font-bold text-primary">
-                ${selectedProduct?.discountPrice}
-              </span>
-              <span className="text-gray-500 line-through ml-2">${selectedProduct?.price}</span>
+            <div className="border-l border-slate-200 p-6 md:p-8 dark:border-slate-800">
+              <Badge variant="secondary" className="text-slate-600 dark:text-slate-300">
+                {selectedProduct?.category}
+              </Badge>
+              <h1 className="mt-4 text-4xl font-semibold text-slate-900 dark:text-white">
+                {selectedProduct?.title}
+              </h1>
+              <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
+                {selectedProduct?.shortDescription || selectedProduct?.description}
+              </p>
+
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Price</p>
+                  <p className="text-4xl font-bold text-blue-600">
+                    ${productPrice?.toFixed ? productPrice.toFixed(2) : productPrice}
+                  </p>
+                </div>
+                {isDiscounted && (
+                  <div className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-200">
+                    Save ${savings.toFixed(2)}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Rating</p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <Star className="text-yellow-500" size={20} />
+                    <span className="text-base font-semibold">{selectedProduct?.rating || "4.8"}/5</span>
+                  </div>
+                </div>
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Shipping</p>
+                  <p className="mt-2 text-base font-semibold">Free delivery available</p>
+                </div>
+              </div>
+
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+                  <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Quantity</span>
+                  <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2 dark:border-slate-800 dark:bg-slate-950">
+                    <button
+                      type="button"
+                      onClick={() => setQuantity((qty) => Math.max(1, qty - 1))}
+                      className="h-10 w-10 rounded-full bg-slate-100 text-xl font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100"
+                    >
+                      -
+                    </button>
+                    <span className="w-12 text-center text-lg font-semibold text-slate-900 dark:text-white">{quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => setQuantity((qty) => qty + 1)}
+                      className="h-10 w-10 rounded-full bg-slate-100 text-xl font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Button
+                    className="w-full rounded-full bg-blue-600 px-6 py-4 text-lg font-semibold text-white hover:bg-blue-700"
+                    onClick={addTocart}
+                  >
+                    <ShoppingCart className="mr-2" size={20} />
+                    Add {quantity} to Cart {quantityInCart > 0 && `(${quantityInCart})`}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="w-full rounded-full px-6 py-4 text-lg font-semibold"
+                    onClick={() => navigate(`/productInfo/${selectedProduct._id}`)}
+                  >
+                    Buy Now
+                  </Button>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <p className={`mt-1 font-bold ${selectedProduct.inStock ? "text-green-600" : "text-red-600"}`}>
-              {selectedProduct.inStock ? "In Stock" : "Out of Stock"}
-            </p>
-
-            <Button
-              className="mt-4 bg-blue-500 text-white px-5 py-2 text-md font-semibold rounded-lg hover:bg-blue-600 transition flex items-center justify-center"
-              onClick={addTocart}
-            >
-              <ShoppingCart className="mr-2 font-bold" size={22} />
-              Add to Cart {quantityInCart > 0 && `(${quantityInCart})`}
-            </Button>
-          </CardContent>
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-950">
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white">People also viewed</h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            Explore similar items our customers love.
+          </p>
+          <div className="mt-6">
+            <Recommended category={selectedProduct?.category} onProductSelect={setSelectedProduct} />
+          </div>
         </div>
       </div>
-
-      {/* Recommended Products */}
-      <div className="mt-8 w-full flex justify-center">
-        <Recommended category={selectedProduct?.category} onProductSelect={setSelectedProduct} />
-      </div>
-    </div>
+    </section>
   );
 };
 

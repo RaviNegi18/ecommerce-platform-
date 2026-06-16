@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { showInfoToast } from "@/utills/ToastUtills";
 
 const ProtectedRoute = ({ children }) => {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (!user) {
-      alert("Please login first to access this page");
+      showInfoToast("Please login first to access this page");
     }
   }, [user]);
 

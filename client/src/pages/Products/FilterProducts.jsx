@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import myContext from "../../context/data/myContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,108 +16,114 @@ const FilterSidebar = ({
   products,
   searchKey,
   setSearchKey,
+  resetFilters,
 }) => {
   const context = useContext(myContext);
-  const { mode, setMode } = context;
+  const { mode } = context;
 
   const isDarkMode = mode === "dark";
 
   const categories = [...new Set(products.map((item) => item.category))];
   const brands = [...new Set(products.map((item) => item.brand))];
 
-  const minPrice = products.length
-    ? Math.min(...products.map((item) => item.price))
-    : 0;
-  const maxPrice = products.length
-    ? Math.max(...products.map((item) => item.price))
-    : 10000;
+  const minPrice = products.length ? Math.min(...products.map((item) => item.price)) : 0;
+  const maxPrice = products.length ? Math.max(...products.map((item) => item.price)) : 10000;
 
   const [priceRange, setPriceRange] = React.useState([minPrice, maxPrice]);
 
+  useEffect(() => {
+    setPriceRange([minPrice, maxPrice]);
+  }, [minPrice, maxPrice]);
+
   return (
-    <aside
-      className={` h-[100vh]  scroll-area  sticky w-64 p-4 border-r overflow-y-auto transition-colors duration-300 ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
-      }`}
-    >
-      <div className="flex sticky justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Filters</h2>
+    <aside className={`sticky top-24 h-fit rounded-[2rem] border p-5 shadow-xl transition ${
+      isDarkMode ? "border-slate-800 bg-slate-950 text-slate-100" : "border-slate-200 bg-white text-slate-900"
+    }`}>
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm uppercase tracking-[0.3em] text-blue-500">Filters</p>
+          <h2 className="text-xl font-semibold">Refine results</h2>
+        </div>
+        <button
+          type="button"
+          onClick={resetFilters}
+          className="text-sm font-medium text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+        >
+          Clear
+        </button>
       </div>
 
-      <ScrollArea className="h-full overflow-x-hidden overflow-y-hidden">
-        <Card
-          className={`p-4 shadow-md border-0 ${
-            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
-          }`}
-        >
+      <ScrollArea className="max-h-[72vh] space-y-6 overflow-hidden">
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">Search</label>
           <Input
             type="text"
             value={searchKey}
             onChange={(e) => setSearchKey(e.target.value)}
-            placeholder="Search products..."
-            className={`mb-4 ${
-              isDarkMode ? "bg-gray-700 text-white" : "bg-white text-black"
-            }`}
+            placeholder="Search products"
+            className={`${isDarkMode ? "bg-slate-900 text-slate-100" : "bg-slate-100 text-slate-900"}`}
           />
+        </div>
 
-          <h3 className="font-medium mt-4 mb-2">Category</h3>
-          {categories.map((category) => (
-            <div key={category} className="flex items-center space-x-2">
-              <Checkbox
-                checked={selectedCategories.includes(category)}
-                onCheckedChange={() => onCategoryChange(category)}
-                className={isDarkMode ? "text-white" : "text-black"}
-              />
-              <label className={isDarkMode ? "text-white" : "text-black"}>
-                {category}
+        <div className="space-y-3">
+          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Category</p>
+          <div className="space-y-3">
+            {categories.map((category) => (
+              <label key={category} className="flex cursor-pointer items-center gap-2 text-sm">
+                <Checkbox
+                  checked={selectedCategories.includes(category)}
+                  onCheckedChange={() => onCategoryChange(category)}
+                  className="border-slate-300"
+                />
+                <span>{category}</span>
               </label>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
 
-          <h3 className="font-medium mt-4 mb-2">Brand</h3>
-          {brands.map((brand) => (
-            <div key={brand} className="flex items-center space-x-2">
-              <Checkbox
-                checked={selectedBrands.includes(brand)}
-                onCheckedChange={() => onBrandChange(brand)}
-                className={isDarkMode ? "text-white" : "text-black"}
-              />
-              <label className={isDarkMode ? "text-white" : "text-black"}>
-                {brand}
+        <div className="space-y-3">
+          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Brand</p>
+          <div className="space-y-3">
+            {brands.map((brand) => (
+              <label key={brand} className="flex cursor-pointer items-center gap-2 text-sm">
+                <Checkbox
+                  checked={selectedBrands.includes(brand)}
+                  onCheckedChange={() => onBrandChange(brand)}
+                  className="border-slate-300"
+                />
+                <span>{brand}</span>
               </label>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
 
-          <h3 className="font-medium mt-4 mb-2">Price Range</h3>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Price range</p>
+            <span className="text-sm text-slate-500 dark:text-slate-400">₹{priceRange[0]} - ₹{priceRange[1]}</span>
+          </div>
           <Slider
             value={priceRange}
             onValueChange={setPriceRange}
             min={minPrice}
             max={maxPrice}
-            step={100}
-            className="mb-4"
+            step={50}
+            className={isDarkMode ? "text-slate-100" : "text-slate-900"}
           />
-          <div className="flex justify-between text-sm">
-            <span>₹{priceRange[0]}</span>
-            <span>₹{priceRange[1]}</span>
-          </div>
+        </div>
 
-          <Button className="w-full mt-4" onClick={applyFilters}>
+        <div className="flex flex-col gap-3 pt-2">
+          <Button className="w-full rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700" onClick={applyFilters}>
             Apply Filters
           </Button>
           <Button
             variant="outline"
-            className="w-full mt-2"
-            onClick={() => {
-              setSearchKey("");
-              setPriceRange([minPrice, maxPrice]);
-              onCategoryChange([]);
-              onBrandChange([]);
-            }}
+            className="w-full rounded-full border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+            onClick={resetFilters}
           >
-            Reset Filters
+            Reset selections
           </Button>
-        </Card>
+        </div>
       </ScrollArea>
     </aside>
   );

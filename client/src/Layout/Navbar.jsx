@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { IoMdMoon } from "react-icons/io";
 import { FiSun } from "react-icons/fi";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaShoppingBag } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
 import myContext from "@/context/data/myContext";
 import ConorImg from "../assets/conor.jpg";
@@ -46,8 +46,14 @@ const Navbar = () => {
       className={`fixed top-0 w-full z-50 py-3 px-6 shadow-md flex items-center justify-between ${isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
         } transition-all duration-300`}
     >
-      <Link to="/" className="text-2xl font-bold text-blue-500">
-        Shopsy
+      <Link to="/" className="flex items-center gap-3 text-2xl font-bold text-blue-500">
+        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-600 dark:bg-white/10 dark:text-blue-400">
+          <FaShoppingBag size={22} />
+        </span>
+        <div className="flex flex-col leading-tight">
+          <span>Shopsy</span>
+          <small className="text-xs font-medium text-slate-500 dark:text-slate-400">Shop smart</small>
+        </div>
       </Link>
 
       <ul className="hidden md:flex items-center space-x-8 text-md font-medium">

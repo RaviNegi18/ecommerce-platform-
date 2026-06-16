@@ -8,9 +8,10 @@ const toastStyle = {
 };
 
 export const showSuccessToast = (message) => {
+  toast.dismiss();
   toast.success(message, {
     position: "top-right",
-    autoClose: 2000,
+    autoClose: 5000,
     pauseOnHover: true,
     draggable: true,
     closeOnClick: true,
@@ -22,9 +23,10 @@ export const showSuccessToast = (message) => {
 };
 
 export const showErrorToast = (message) => {
+  toast.dismiss();
   toast.error(message, {
     position: "top-right",
-    autoClose: 2000,
+    autoClose: 5000,
     pauseOnHover: true,
     closeOnClick: true,
     draggable: true,
@@ -36,9 +38,10 @@ export const showErrorToast = (message) => {
 };
 
 export const showInfoToast = (message) => {
+  toast.dismiss();
   toast.info(message, {
     position: "top-right",
-    autoClose: 2000,
+    autoClose: 5000,
     pauseOnHover: true,
     closeOnClick: true,
     draggable: true,

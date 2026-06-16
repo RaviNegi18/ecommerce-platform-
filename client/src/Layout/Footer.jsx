@@ -3,6 +3,7 @@ import myContext from "@/context/data/myContext";
 import { Link } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { showErrorToast, showSuccessToast } from "@/utills/ToastUtills";
 
 function Footer() {
   const { mode } = useContext(myContext);
@@ -13,12 +14,12 @@ function Footer() {
 
   const handleSubscribe = () => {
     if (!inputValue) {
-      alert("Please enter an email");
+      showErrorToast("Please enter an email");
     } else if (!emailRegex.test(inputValue)) {
-      alert("Please enter a valid email");
+      showErrorToast("Please enter a valid email");
       setInputValue("");
     } else {
-      alert(`Subscribed with ${inputValue}`);
+      showSuccessToast(`Subscribed with ${inputValue}`);
       setInputValue("");
     }
   };
